@@ -1,0 +1,82 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  showWord?: boolean;
+  linked?: boolean;
+}
+const { size = 'sm', showWord = true, linked = true } = Astro.props;
+const dims = { sm: 30, md: 44, lg: 110 } as const;
+const px = dims[size];
+const Tag = linked ? 'a' : 'div';
+const linkAttrs = linked ? { href: '/', 'aria-label': 'idktheflag — home' } : {};
+---
+
+<Tag class:list={['logo', `logo--${size}`]} {...linkAttrs}>
+  <span class="logo__badge" style={`--s:${px}px`}>
+    <img
+      src="/branding/web-app-manifest-512x512.png"
+      alt={showWord ? '' : 'idktheflag'}
+      width={px}
+      height={px}
+      loading="eager"
+    />
+  </span>
+  {
+    showWord && (
+      <span class="logo__word">
+        <span class="logo__word-idk">idk</span>theflag
+      </span>
+    )
+  }
+</Tag>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .logo__badge {
+    width: var(--s);
+    height: var(--s);
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border: 1px solid var(--border-strong);
+    transition: border-color 0.16s var(--ease);
+  }
+  .logo__badge img {
+    width: 84%;
+    height: 84%;
+    object-fit: contain;
+  }
+  a.logo:hover .logo__badge {
+    border-color: var(--crimson);
+  }
+  .logo__word {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .logo__word-idk {
+    color: var(--crimson-bright);
+  }
+  .logo--sm .logo__word {
+    font-size: 1.02rem;
+  }
+  .logo--md .logo__word {
+    font-size: 1.3rem;
+  }
+  .logo--lg {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .logo--lg .logo__word {
+    font-size: clamp(1.9rem, 6vw, 3rem);
+  }
+</style>

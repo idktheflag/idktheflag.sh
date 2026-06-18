@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path to an OG image under /public. */
+  ogImage?: string;
+}
+
+const {
+  title = 'idktheflag — CTF team',
+  description = "idktheflag is a competitive CTF team. We'll know it when we find it.",
+  ogImage = '/branding/web-app-manifest-512x512.png',
+} = Astro.props;
+
+const fullTitle = title === 'idktheflag — CTF team' ? title : `${title} · idktheflag`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://idktheflag.sh').href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0a0c" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- favicons / branding -->
+    <link rel="icon" type="image/svg+xml" href="/branding/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/branding/favicon-96x96.png" />
+    <link rel="shortcut icon" href="/branding/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/branding/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- open graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="idktheflag" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: 12px;
+        top: -60px;
+        z-index: 100;
+        background: var(--crimson);
+        color: #fff;
+        padding: 0.6em 1em;
+        border-radius: 8px;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        transition: top 0.2s var(--ease);
+      }
+      .skip-link:focus {
+        top: 12px;
+      }
+    </style>
+  </body>
+</html>

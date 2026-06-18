@@ -1,0 +1,25 @@
+---
+interface Props {
+  value: string;
+  label: string;
+}
+const { value, label } = Astro.props;
+---
+
+<div class="stat-card">
+  <div class="stat-value" set:html={value}></div>
+  <div class="stat-label">{label}</div>
+</div>
+
+<style>
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    transition: border-color 0.16s var(--ease);
+  }
+  .stat-card:hover {
+    border-color: var(--border-strong);
+  }
+</style>

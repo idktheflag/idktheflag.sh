@@ -1,0 +1,110 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const fmtDate = (d: Date) => d.toISOString().split('T')[0];
+---
+
+<Base
+  title="Blog"
+  description="Writeups, recaps, and notes from the idktheflag CTF team."
+>
+  <section class="page-head">
+    <div class="container">
+      <h1 class="page-head__title" style="margin-top: 14px;">The blog.</h1>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      {
+        posts.length > 0 ? (
+          <div class="blog-list">
+            {posts.map((post) => (
+              <a class="blog-item" href={`/blog/${post.id}/`}>
+                <span class="blog-item__date">{fmtDate(post.data.date)}</span>
+                <span class="blog-item__separator">—</span>
+                <span class="blog-item__title">{post.data.title}</span>
+                <span class="blog-item__separator">—</span>
+                <span class="blog-item__author">{post.data.author}</span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="lead" style="margin-top:20px">
+            More posts coming soon.
+          </p>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(48px, 8vw, 92px) 8px;
+  }
+  .page-head__title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+  }
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .blog-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    transition: border-color 0.18s var(--ease), background 0.18s var(--ease), color 0.18s var(--ease);
+    text-decoration: none;
+  }
+  .blog-item:hover {
+    border-color: var(--crimson-line);
+    background: var(--surface-hover);
+    color: var(--text);
+  }
+  .blog-item__date {
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .blog-item__title {
+    color: var(--text);
+    font-weight: 500;
+    flex-grow: 1;
+  }
+  .blog-item__author {
+    color: var(--crimson-bright);
+    white-space: nowrap;
+  }
+  .blog-item__separator {
+    color: var(--border-strong);
+  }
+
+  @media (max-width: 680px) {
+    .blog-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 16px;
+    }
+    .blog-item__separator {
+      display: none;
+    }
+    .blog-item__title {
+      width: 100%;
+    }
+  }
+</style>

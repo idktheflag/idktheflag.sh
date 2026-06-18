@@ -1,0 +1,35 @@
+---
+title: "A new beginning (sort of)"
+description: "A doc detailing the creation of the new idktheflag website after some drama the author handled"
+date: 2026-06-18
+author: Qu1ck5h0t
+category: Boring admin stuff
+---
+## Tl;dr
+Some kid named River nuked our Discord server and DMCA'd us since he made the original site. Okay, we made a new one in under 3 hours.
+
+## The River situation
+Out of privacy for River, I won't say too much but River used to be a member of our team as well as our web dev. He cheated in a CTF a few days before writing this, and refused to present himself accountable in front of the team. When his demands to not be made to "answer to the team" were not met, he nuked the Discord server with a malicious bot and attempted to nuke our infrastructure, both of which we luckily saved with backups and rapid access control response. 
+
+He is now banned, but since he was our web dev and MIGHT own the rights to the old site, he called up a bunch of legal cronies and tried to DMCA us. We came to an agreement that if we took down the original site and deleted the old repo, he'd stop seeking action legal or otherwise and leave us alone. Hence, here we are.
+
+## Making the new site
+It was June 17th, 21:44pm EST. I had just deleted the GitHub repo and I called up my boy Zemi, who's our main infra guy. "We need to remake the site," I said, and within two minutes we got to work. 
+
+The old site runned on Astro which is actually one of the best options for our situation. I gotta give credit where it's due, even if the kid was a nuisance. Unfortunately, I had no idea how to use Astro so I had Zemi handle the initial work. He's a far better web designer/developer than me, and I'm actually really impressed by how he did it. 
+
+First, we went through the structure of the site: an index page, CTFs page, team members page, blog page and docs page. He got Claude to slop a site for us based on the specifications, as a start. "Eww," the both of us went. We HATED the AI slop design. But I noticed two good ideas: colours and layout. 
+
+I asked him to send me the site, and for the first time I actually installed npm on my machine. I figured out how to spin up Astro, and from there everything was pretty intuitive. I deleted virtually EVERYTHING but the layout, and started replacing everything with my own writing and design, keeping only the colours and layout from the clanker. 
+
+## Improvements??
+It's actually quite interesting how bad his workflow was as I learned how the Astro framework works as I made the site. First of all, I used MUCH BETTER directory organisation for the "pseudo-dynamic" parts (blog posts, documentation etc). On the old site, I had no idea where everything was but now it's incredibly obvious because instead of hiding it three directories deep, all the uploadable content folders are directly present in the root folder.
+
+Secondly, the old site's CTF history pulling was actually really inefficient. I have no idea what the last guy did except for the fact that he complained a lot about Gemini token usage or backend overhead or API grabbing or whatever, but it's really straightforward: you just make a .ts file handling the data and update THAT with whatever. No whining necessary. By the way, I was able to make sorting work for the events list! I can't believe we didn't have that before...
+
+Also, the old docs were TERRIBLE. He ran that thing from a whole other framework which not only makes for confusing UX, but also plain bad practise for maintenance consistency. I fixed that by having it pull directly from /src/docs, with folders inside for each category that are COLLAPSEABLE. Yes, you can COLLAPSE them just like with whatver old wiki engine he used. But faster and cleaner and less overhead!
+
+To top it all off, I made a system to streamline content creation by automating the creation of .md files that the docs and blog and team bios use, I might make it public later just to show you guys how it works but for now it's in house and also pretty much WIP.
+
+## Conclusion
+Don't nuke your team's creations, it's bad for the mind and soul. Also, if your team experiences a bad egg messing things up and that team happens to be idktheflag, call uncle Qu1ck and he'll fix things up for you with a brand new website. Also Zemi is the GOAT at putting things together FAST.

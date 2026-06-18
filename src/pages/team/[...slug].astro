@@ -1,0 +1,106 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const members = await getCollection('team');
+  return members.map((member) => ({ params: { slug: member.id }, props: { member } }));
+}
+
+const { member } = Astro.props;
+const { Content } = await render(member);
+const { handle, role, categories, bio, avatar } = member.data;
+---
+
+<Base title={handle} description={bio}>
+  <article class="member-page">
+    <div class="member-page__inner">
+      <a class="member-page__back" href="/team"><span aria-hidden="true">←</span> Team</a>
+
+      <header class="member-page__header">
+        <img class="member-page__avatar" src={avatar} alt={`${handle} avatar`} width="112" height="112" />
+        <div>
+          <h1 class="member-page__title">{handle}</h1>
+          <p class="member-page__role">{role}</p>
+          <div class="member-page__tags">
+            {categories.map((category) => <span class="tag">{category}</span>)}
+          </div>
+        </div>
+      </header>
+
+      <p class="member-page__bio">{bio}</p>
+
+      <hr class="divider" />
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .member-page {
+    padding-block: clamp(40px, 7vw, 80px) clamp(48px, 8vw, 90px);
+  }
+  .member-page__inner {
+    width: 100%;
+    max-width: var(--maxw-prose);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  .member-page__back {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--muted);
+    transition: color 0.18s var(--ease);
+  }
+  .member-page__back:hover {
+    color: var(--crimson-bright);
+  }
+  .member-page__header {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-top: 30px;
+  }
+  .member-page__avatar {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--surface-2);
+    object-fit: cover;
+  }
+  .member-page__title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+  }
+  .member-page__role {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--crimson-bright);
+    text-transform: lowercase;
+  }
+  .member-page__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 16px;
+  }
+  .member-page__bio {
+    margin-top: 28px;
+    font-size: 1.08rem;
+    color: var(--muted);
+  }
+  .divider {
+    margin-block: 28px;
+  }
+
+  @media (max-width: 560px) {
+    .member-page__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

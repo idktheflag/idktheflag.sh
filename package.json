@@ -1,0 +1,18 @@
+{
+  "name": "idktheflag-web",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official website for the idktheflag CTF team.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "astro": "^5.7.0"
+  }
+}

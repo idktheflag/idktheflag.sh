@@ -1,0 +1,327 @@
+---
+import { events } from '../data/events.ts';
+
+// Sort by rating points by default (highest first).
+const rows = [...events].sort((a, b) => b.rating - a.rating);
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtDate = (iso: string) => {
+  const [, m, d] = iso.split('-');
+  return `${months[parseInt(m, 10) - 1]} ${parseInt(d, 10)}`;
+};
+const fmtNum = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const placeTone = (p: number) =>
+  p === 1 ? 'gold' : p <= 10 ? 'crimson' : p <= 50 ? 'good' : 'muted';
+---
+
+<div class="table-wrap">
+  <table class="evt-table">
+    <thead>
+      <tr>
+        <th scope="col" data-sort="name">
+          <div class="th-inner">Event<span class="sort-caret"></span></div>
+        </th>
+        <th scope="col" data-sort="date">
+          <div class="th-inner">Date<span class="sort-caret"></span></div>
+        </th>
+        <th scope="col" class="num" data-sort="place">
+          <div class="th-inner">Place<span class="sort-caret"></span></div>
+        </th>
+        <th scope="col" class="num" data-sort="points">
+          <div class="th-inner">CTF pts<span class="sort-caret"></span></div>
+        </th>
+        <th scope="col" class="num is-active" data-sort="rating" aria-sort="descending">
+          <div class="th-inner">Rating<span class="sort-caret"></span></div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((e) => (
+          <tr
+            data-name={e.name}
+            data-date={e.date}
+            data-place={e.place}
+            data-points={e.points}
+            data-rating={e.rating}
+          >
+            <td class="evt-table__name">{e.name}</td>
+            <td class="evt-table__date">{fmtDate(e.date)}</td>
+            <td class="num">
+              <span class:list={['place', `place--${placeTone(e.place)}`]}>
+                {e.place === 1 ? '🥇 1st' : `#${e.place}`}
+              </span>
+            </td>
+            <td class="num evt-table__pts">{fmtNum(e.points)}</td>
+            <td class="num evt-table__rating">{e.rating.toFixed(3)}</td>
+          </tr>
+        ))
+      }
+      <tr class="show-all-row">
+        <td colspan="5">
+          <button type="button" class="show-all-btn">Show all ({rows.length} events)</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const table = document.querySelector('.evt-table');
+  if (table) {
+    const tbody = table.querySelector('tbody');
+    const headers = table.querySelectorAll('th[data-sort]');
+    const showAllBtn = table.querySelector('.show-all-btn');
+
+    let currentSort = {
+      column: 'rating',
+      desc: true
+    };
+
+    let isExpanded = false;
+
+    const getVal = (row: Element, col: string) => {
+      return row.getAttribute(`data-${col}`) || '';
+    };
+
+    const updateRowVisibility = () => {
+      if (!tbody) return;
+      const rowsArr = Array.from(tbody.querySelectorAll('tr:not(.show-all-row)'));
+      const showAllRow = tbody.querySelector('.show-all-row');
+      
+      if (isExpanded) {
+        rowsArr.forEach(row => row.classList.remove('is-hidden'));
+        if (showAllRow) showAllRow.classList.add('is-hidden');
+      } else {
+        rowsArr.forEach((row, i) => {
+          if (i < 7) {
+            row.classList.remove('is-hidden');
+          } else {
+            row.classList.add('is-hidden');
+          }
+        });
+        if (showAllRow) {
+          showAllRow.classList.remove('is-hidden');
+          tbody.appendChild(showAllRow); // Always move it to the end of the tbody
+        }
+      }
+    };
+
+    const sortTable = (col: string) => {
+      if (!tbody) return;
+      const rowsArr = Array.from(tbody.querySelectorAll('tr:not(.show-all-row)'));
+      
+      if (currentSort.column === col) {
+        currentSort.desc = !currentSort.desc;
+      } else {
+        currentSort.column = col;
+        // Default to descending for numbers/dates, ascending for names/placement
+        currentSort.desc = (col === 'rating' || col === 'date' || col === 'points');
+      }
+
+      headers.forEach(th => {
+        const active = th.getAttribute('data-sort') === col;
+        th.classList.toggle('is-active', active);
+        if (active) {
+          th.setAttribute('aria-sort', currentSort.desc ? 'descending' : 'ascending');
+        } else {
+          th.removeAttribute('aria-sort');
+        }
+      });
+
+      rowsArr.sort((a, b) => {
+        const valA = getVal(a, col);
+        const valB = getVal(b, col);
+
+        if (col === 'rating' || col === 'points' || col === 'place') {
+          const numA = parseFloat(valA);
+          const numB = parseFloat(valB);
+          return currentSort.desc ? numB - numA : numA - numB;
+        }
+        
+        // Alphabetical or dates
+        if (valA < valB) return currentSort.desc ? 1 : -1;
+        if (valA > valB) return currentSort.desc ? -1 : 1;
+        return 0;
+      });
+
+      rowsArr.forEach(row => tbody.appendChild(row));
+      updateRowVisibility();
+    };
+
+    headers.forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.getAttribute('data-sort');
+        if (col) sortTable(col);
+      });
+    });
+
+    showAllBtn?.addEventListener('click', () => {
+      isExpanded = true;
+      updateRowVisibility();
+    });
+
+    // Initialize layout
+    updateRowVisibility();
+  }
+</script>
+
+<style>
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    background: var(--surface);
+  }
+  .evt-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 540px;
+  }
+  .evt-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    position: sticky;
+    top: 0;
+    user-select: none;
+    transition: background-color 0.16s var(--ease), color 0.16s var(--ease);
+  }
+  .evt-table th[data-sort] {
+    cursor: pointer;
+  }
+  .evt-table th[data-sort]:hover {
+    background: var(--surface-3);
+    color: var(--text);
+  }
+  .evt-table th.is-active {
+    color: var(--text);
+  }
+  
+  .th-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .num .th-inner {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .sort-caret {
+    display: inline-block;
+    margin-left: 4px;
+    opacity: 0;
+    transition: opacity 0.16s var(--ease);
+  }
+  .sort-caret::after {
+    content: '↓';
+    font-size: 0.8rem;
+  }
+  
+  th:hover .sort-caret {
+    opacity: 0.4;
+  }
+  
+  th.is-active .sort-caret {
+    opacity: 1;
+  }
+  
+  th[aria-sort="ascending"] .sort-caret::after {
+    content: '↑';
+  }
+
+  .evt-table td {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 0.92rem;
+    color: var(--text-dim);
+  }
+  .evt-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .evt-table tbody tr {
+    transition: background 0.15s var(--ease);
+  }
+  .evt-table tbody tr:hover {
+    background: var(--surface-2);
+  }
+  
+  .show-all-row td {
+    padding: 0 !important;
+  }
+  .show-all-btn {
+    width: 100%;
+    background: var(--surface-2);
+    border: none;
+    color: var(--crimson-bright);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.16s var(--ease), color 0.16s var(--ease);
+  }
+  .show-all-btn:hover {
+    background: var(--surface-3);
+    color: var(--text);
+  }
+  
+  .is-hidden {
+    display: none !important;
+  }
+  
+  .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono);
+  }
+  .evt-table__name {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .evt-table__date {
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .evt-table__rating {
+    color: var(--crimson-bright);
+  }
+
+  .place {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .place--gold {
+    color: var(--gold);
+    background: rgba(224, 179, 65, 0.1);
+    border-color: rgba(224, 179, 65, 0.35);
+  }
+  .place--crimson {
+    color: var(--crimson-bright);
+    background: var(--crimson-soft);
+    border-color: var(--crimson-line);
+  }
+  .place--good {
+    color: var(--text);
+    background: var(--surface-3);
+  }
+  .place--muted {
+    color: var(--muted);
+  }
+</style>

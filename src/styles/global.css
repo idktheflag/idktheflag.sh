@@ -1,0 +1,401 @@
+/* ==========================================================================
+   idktheflag — design system
+   Minimal dark · mono headings · crimson used sparingly
+   ========================================================================== */
+
+:root {
+  /* --- surfaces (flat, dark, neutral) --- */
+  --bg: #0a0a0c;
+  --bg-1: #0d0d11;
+  --surface: #111116;
+  --surface-2: #16161d;
+  --surface-3: #1c1c24;
+
+  /* --- lines --- */
+  --border: #21212a;
+  --border-soft: rgba(255, 255, 255, 0.05);
+  --border-strong: #32323d;
+
+  /* --- text --- */
+  --text: #ededf1;
+  --text-dim: #b4b4bf;
+  --muted: #7f7f8a;
+  --faint: #595963;
+
+  /* --- crimson (anchored to the logo) --- */
+  --crimson: #cf2336;
+  --crimson-bright: #e8394f;
+  --crimson-dim: #8e1622;
+  --crimson-soft: rgba(207, 35, 54, 0.1);
+  --crimson-line: rgba(207, 35, 54, 0.32);
+
+  --gold: #d8ab44;
+
+  /* --- type --- */
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* --- layout --- */
+  --maxw: 1080px;
+  --maxw-prose: 720px;
+  --radius: 12px;
+  --radius-sm: 9px;
+  --radius-lg: 16px;
+
+  --shadow: 0 10px 28px -22px rgba(0, 0, 0, 0.75);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --- reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 88px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--crimson);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--crimson-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- scrollbar --- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+/* ==========================================================================
+   typography
+   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+p {
+  color: var(--text-dim);
+}
+
+strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 0.12em 0.42em;
+  border-radius: 6px;
+  color: var(--text);
+}
+
+/* ==========================================================================
+   layout helpers
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.section {
+  padding-block: clamp(52px, 8vw, 96px);
+}
+
+.section--tight {
+  padding-block: clamp(36px, 5vw, 64px);
+}
+
+.divider {
+  height: 1px;
+  border: 0;
+  background: var(--border);
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+}
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 880px) {
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   section headings
+   ========================================================================== */
+.section-title {
+  font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+  margin-top: 12px;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 62ch;
+  margin-top: 12px;
+}
+
+.home-intro .lead {
+  width: 100%;
+  max-width: none;
+}
+
+.events-section .lead {
+  width: 100%;
+  max-width: none;
+}
+
+.home-intro__join a,
+.home-intro__join a:visited {
+  color: var(--crimson-bright);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.7em 1.2em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background 0.16s var(--ease), border-color 0.16s var(--ease), color 0.16s var(--ease);
+}
+
+.btn-primary {
+  background: var(--crimson);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--crimson-bright);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--text-dim);
+}
+
+/* ==========================================================================
+   chips / tags
+   ========================================================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.26em 0.6em;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.tag-crimson {
+  background: var(--crimson-soft);
+  border-color: var(--crimson-line);
+  color: var(--crimson-bright);
+}
+
+/* ==========================================================================
+   stat
+   ========================================================================== */
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-value .unit {
+  color: var(--muted);
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   prose (blog / docs body)
+   ========================================================================== */
+.prose {
+  color: var(--text-dim);
+  font-size: 1.0rem;
+  line-height: 1.78;
+}
+.prose > * + * {
+  margin-top: 1.1em;
+}
+.prose h2 {
+  font-size: 1.4rem;
+  margin-top: 2em;
+}
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 1.6em;
+}
+.prose a {
+  color: var(--crimson-bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--crimson-line);
+}
+.prose a:hover {
+  text-decoration-color: var(--crimson-bright);
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+.prose li {
+  margin-top: 0.4em;
+}
+.prose li::marker {
+  color: var(--crimson);
+}
+.prose blockquote {
+  border-left: 2px solid var(--crimson);
+  padding: 0.2em 0 0.2em 1.1em;
+  color: var(--muted);
+  font-style: italic;
+}
+.prose pre {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin-block: 2em;
+}
+
+/* ==========================================================================
+   misc utilities
+   ========================================================================== */
+.note {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--faint);
+}
+
+/* ==========================================================================
+   reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

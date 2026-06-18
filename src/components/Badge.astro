@@ -1,0 +1,49 @@
+---
+interface Props {
+  title: string;
+  sub: string;
+  tone?: 'gold' | 'crimson' | 'muted';
+}
+const { title, sub, tone = 'crimson' } = Astro.props;
+---
+
+<div class:list={['badge', `badge--${tone}`]}>
+  <div class="badge__title">{title}</div>
+  <div class="badge__sub">{sub}</div>
+</div>
+
+<style>
+  .badge {
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .badge__title {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.96rem;
+    color: var(--text);
+  }
+  .badge__sub {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  .badge--gold {
+    border-left-color: var(--gold);
+  }
+  .badge--gold .badge__title {
+    color: var(--gold);
+  }
+  .badge--crimson {
+    border-left-color: var(--crimson);
+  }
+  .badge--muted {
+    border-left-style: dashed;
+  }
+  .badge--muted .badge__title {
+    color: var(--text-dim);
+  }
+</style>

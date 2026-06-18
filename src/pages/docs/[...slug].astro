@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { getDocCategory, groupDocs, sortDocs } from '../../lib/docs.ts';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', ({ data }) => !data.draft);
+  return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const docs = sortDocs(await getCollection('docs', ({ data }) => !data.draft));
+const categories = groupDocs(docs);
+const activeCategory = getDocCategory(doc);
+---
+
+<Base title={doc.data.title} description={doc.data.description ?? doc.data.title}>
+  <section class="docs">
+    <div class="container docs__grid">
+      <aside class="docs__side">
+        <nav class="docs__nav" aria-label="Docs">
+          <a class="docs__home" href="/docs">Docs</a>
+          {
+            categories.map((category) => (
+              <details class="docs__category" open={category.slug === activeCategory}>
+                <summary>{category.title}</summary>
+                <ul>
+                  {category.docs.map((entry) => (
+                    <li>
+                      <a class:list={[entry.id === doc.id && 'is-active']} href={`/docs/${entry.id}/`}>
+                        {entry.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <article class="docs__main">
+        <header class="docs__header">
+          <h1 class="docs__title">{doc.data.title}</h1>
+          {doc.data.description && <p class="lead">{doc.data.description}</p>}
+        </header>
+
+        <div class="prose docs__prose">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .docs {
+    padding-block: clamp(40px, 7vw, 80px) clamp(48px, 8vw, 90px);
+  }
+  .docs__grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .docs__side {
+    position: sticky;
+    top: 88px;
+  }
+  .docs__home {
+    display: block;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .docs__home:hover {
+    color: var(--text);
+  }
+  .docs__category {
+    border-left: 1px solid var(--border);
+  }
+  .docs__category + .docs__category {
+    margin-top: 14px;
+  }
+  .docs__category summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+  .docs__category summary::-webkit-details-marker {
+    display: none;
+  }
+  .docs__category summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1.2em;
+    color: var(--crimson-bright);
+  }
+  .docs__category[open] summary::before {
+    content: '-';
+  }
+  .docs__nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  .docs__nav a {
+    text-decoration: none;
+  }
+  .docs__nav li a {
+    display: block;
+    padding: 6px 14px 6px 32px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color 0.16s var(--ease), border-color 0.16s var(--ease);
+  }
+  .docs__nav li a:hover {
+    color: var(--text);
+  }
+  .docs__nav li a.is-active {
+    color: var(--crimson-bright);
+    border-left-color: var(--crimson);
+  }
+  .docs__header {
+    margin-bottom: 28px;
+  }
+  .docs__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: 12px;
+  }
+
+  @media (max-width: 880px) {
+    .docs__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .docs__side {
+      position: static;
+    }
+  }
+</style>

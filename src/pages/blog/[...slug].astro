@@ -1,0 +1,98 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const d = post.data.date;
+const dateLabel = `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <div class="article__inner">
+      <a class="article__back" href="/blog"><span aria-hidden="true">←</span> All posts</a>
+
+      <div class="article__meta">
+        <span class="tag tag-crimson">{post.data.category}</span>
+        <span class="article__dot">·</span>
+        <span>{dateLabel}</span>
+        <span class="article__dot">·</span>
+        <span>by {post.data.author}</span>
+      </div>
+
+      <h1 class="article__title">{post.data.title}</h1>
+      <p class="article__desc">{post.data.description}</p>
+
+      <hr class="divider" />
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <hr class="divider" />
+
+      <div class="article__foot">
+        <a class="btn btn-ghost" href="/blog"><span aria-hidden="true">←</span> Back to blog</a>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article {
+    padding-block: clamp(40px, 7vw, 80px) clamp(48px, 8vw, 90px);
+  }
+  .article__inner {
+    width: 100%;
+    max-width: var(--maxw-prose);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  .article__back {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--muted);
+    transition: color 0.18s var(--ease);
+  }
+  .article__back:hover {
+    color: var(--crimson-bright);
+  }
+  .article__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .article__dot {
+    color: var(--faint);
+  }
+  .article__title {
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
+    margin-top: 18px;
+    line-height: 1.1;
+  }
+  .article__desc {
+    margin-top: 16px;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+  .article__foot {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+</style>

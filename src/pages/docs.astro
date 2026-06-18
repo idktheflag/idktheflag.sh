@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { groupDocs, sortDocs } from '../lib/docs.ts';
+
+const docs = sortDocs(await getCollection('docs', ({ data }) => !data.draft));
+const categories = groupDocs(docs);
+---
+
+<Base title="Docs" description="Documentation for idktheflag.">
+  <section class="docs">
+    <div class="container docs__grid">
+      <aside class="docs__side">
+        <nav class="docs__nav" aria-label="Docs">
+          <span class="docs__nav-label">Docs</span>
+          {
+            categories.length > 0 ? (
+              categories.map((category) => (
+                <details class="docs__category" open>
+                  <summary>{category.title}</summary>
+                  <ul>
+                    {category.docs.map((doc) => (
+                      <li>
+                        <a href={`/docs/${doc.id}/`}>{doc.data.title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))
+            ) : (
+              <p class="docs__empty">No docs yet.</p>
+            )
+          }
+        </nav>
+      </aside>
+
+      <div class="docs__main">
+        <header class="docs__header">
+          <h1 class="docs__title">Docs</h1>
+          {
+            docs[0] ? (
+              <p class="lead">
+                Pick a doc from the sidebar, or start with <a href={`/docs/${docs[0].id}/`}>{docs[0].data.title}</a>.
+              </p>
+            ) : (
+              <p class="lead">Add markdown files under <code>src/docs</code> to publish docs here.</p>
+            )
+          }
+        </header>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .docs {
+    padding-block: clamp(40px, 7vw, 80px) clamp(48px, 8vw, 90px);
+  }
+  .docs__grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .docs__side {
+    position: sticky;
+    top: 88px;
+  }
+  .docs__nav-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .docs__category {
+    border-left: 1px solid var(--border);
+  }
+  .docs__category + .docs__category {
+    margin-top: 14px;
+  }
+  .docs__category summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+  .docs__category summary::-webkit-details-marker {
+    display: none;
+  }
+  .docs__category summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1.2em;
+    color: var(--crimson-bright);
+  }
+  .docs__category[open] summary::before {
+    content: '-';
+  }
+  .docs__nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  .docs__nav a {
+    display: block;
+    padding: 6px 14px 6px 32px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color 0.16s var(--ease), border-color 0.16s var(--ease);
+  }
+  .docs__nav a:hover {
+    color: var(--text);
+  }
+  .docs__empty {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .docs__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: 12px;
+  }
+  .docs__header a {
+    color: var(--crimson-bright);
+  }
+
+  @media (max-width: 880px) {
+    .docs__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .docs__side {
+      position: static;
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EventTable from '../components/EventTable.astro';
+import Badge from '../components/Badge.astro';
+import { teamStats } from '../data/stats.ts';
+import { badges } from '../data/badges.ts';
+---
+
+<Base
+>
+  <section class="section awards-section" id="awards" style="padding-top: clamp(48px, 8vw, 92px);">
+    <div class="container">
+      <SectionHeading title="Notable achievements" />
+      <div class="grid grid-3 awards" style="margin-top:32px">
+        {badges.map((b) => <Badge title={b.title} sub={b.sub} tone={b.tone} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Event history ===== -->
+  <section class="section events-section" id="events">
+    <div class="container">
+      <SectionHeading
+        title="Events we've played"
+        lead={`We play CTFs almost every weekend, with ${teamStats.eventsPlayed} events played so far! Below's a list of our events and placements, (almost) audomatically updated by a scrappy custom backend!`}
+      />
+      <div style="margin-top:32px">
+        <EventTable />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .awards-section {
+    padding-bottom: clamp(28px, 4vw, 48px);
+  }
+  .events-section {
+    padding-top: clamp(28px, 4vw, 48px);
+  }
+</style>

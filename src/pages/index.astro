@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatCard from '../components/StatCard.astro';
+import { teamStats } from '../data/stats.ts';
+
+const stats = [
+  { value: `#${teamStats.globalRank}`, label: 'Global rank' },
+  { value: `#${teamStats.countryRank}`, label: 'USA rank' },
+  { value: `263<span class="unit">.481</span>`, label: 'Rating' },
+  { value: `${teamStats.eventsPlayed}`, label: 'Events played' },
+];
+---
+
+<Base>
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__header">
+        <img
+          src="/branding/idktheflag-blank.png"
+          alt="idktheflag"
+          width="80"
+          height="80"
+          loading="eager"
+          class="hero__logo"
+        />
+        <h1 class="hero__title">
+          &ldquo;We&rsquo;ll Know It When We Find It.&rdquo;
+        </h1>
+      </div>
+      <div class="hero__stats">
+        <div class="grid grid-4">
+          {stats.map((s) => <StatCard value={s.value} label={s.label} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ===== What we do ===== -->
+  <section class="section home-intro">
+    <div class="container">
+      <SectionHeading
+        title="Who are we?"
+        lead="Founded in January 2026, idktheflag was initially going to be a high school PicoCTF team, with its founding members coming from the PicoCTF 2025 team &quot;Babies of RaptX&quot; (we're better than RaptX now). To our surprise, our members turned out to be kind of cracked despite our younger age, so much so that we quickly found ourselves achieving placements that most grown-ups do not in grown-up CTFs. Under a very flat leadership structure (minus unc/gramps qu1ck's nagging — I'm qu1ck writing this, by the way), we remain a thriving CTF team to this day. Our goal for 2026 is to reach the global top 50 on CTFtime; we're getting pretty close!
+
+We encourage a competitive but non-toxic culture here in the team, and we don't just mean it in a disdainable corporate buzzword sense. Our members frequently work until very late at night during CTF weekends, with a very high success rate of not getting caught by angry parents (qu1ck takes first place at 100%). Of course, not all of us are night owls; we tend to be split across day shifts and night shifts despite most of us living in the States. Outside of competing, we spend much of our time on tooling and ML projects, or on CTF infrastructure and challenge development (wink wink). We also have a few CS2 addicts, and we're pretty much all ROBLOX and Minecraft players. Many of us use Arch, by the way."
+      />
+      <p class="lead home-intro__join">
+        We're always looking for new <a href="/team/">members</a>, so please don't hesistate to
+        <a href="/contact/">contact us</a> to join the gang!
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---- hero ---- */
+  .hero {
+    padding-top: 32px;
+    padding-bottom: clamp(44px, 7vw, 80px);
+    text-align: center;
+  }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    align-self: flex-start;
+  }
+  .hero__logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .hero__title {
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    color: var(--text-dim);
+    font-weight: 500;
+    text-align: left;
+    line-height: 1.25;
+  }
+  .hero__stats {
+    width: 100%;
+    margin-top: 32px;
+  }
+  .home-intro {
+    padding-top: clamp(28px, 4vw, 48px);
+  }
+</style>

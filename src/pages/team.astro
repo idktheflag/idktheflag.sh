@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { getCollection } from 'astro:content';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const staff = team.filter((m) => /(admin|captain|founder)/i.test(m.data.role));
+const rest = team.filter((m) => !/(admin|captain|founder)/i.test(m.data.role));
+---
+
+<Base
+  title="Team"
+  description="Meet idktheflag — the players behind the flags. Captains, category leads, and the crew that makes the late-night solves happen."
+>
+  <!-- ===== Captains ===== -->
+  {
+    staff.length > 0 && (
+      <section class="section--tight">
+        <div class="container">
+          <SectionHeading title="Staff" />
+          <div class="grid grid-2 roster" style="margin-top:28px">
+            {staff.map((m) => (
+              <MemberCard member={m} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ===== Members ===== -->
+  <section class="section--tight">
+    <div class="container">
+      <SectionHeading title="Players" />
+      <div class="grid grid-3 roster" style="margin-top:28px">
+        {rest.map((m) => <MemberCard member={m} />)}
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .roster {
+    gap: 18px;
+  }
+</style>

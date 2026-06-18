@@ -1,0 +1,182 @@
+---
+import Logo from './Logo.astro';
+
+const path = (Astro.url.pathname.replace(/\/+$/, '') || '/');
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/ctf', label: 'CTF' },
+  { href: '/team', label: 'Team' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/docs', label: 'Docs' },
+];
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <Logo size="sm" />
+
+    <nav class="nav" id="nav" aria-label="Primary">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class:list={['nav__link', isActive(l.href) && 'is-active']}
+            aria-current={isActive(l.href) ? 'page' : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <button
+      class="nav-toggle"
+      id="navToggle"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="nav"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!open));
+  });
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    }),
+  );
+  // Shadow/condense on scroll
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--crimson);
+    transition: background 0.25s var(--ease);
+  }
+  .site-header.is-scrolled {
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .nav__link {
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: var(--muted);
+    padding: 0.5em 0.85em;
+    border-radius: 8px;
+    transition: color 0.18s var(--ease), background 0.18s var(--ease);
+  }
+  .nav__link:hover {
+    color: var(--text);
+  }
+  .nav__link.is-active {
+    color: var(--text);
+  }
+  .nav__link.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0.85em;
+    right: 0.85em;
+    bottom: 0.18em;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--crimson);
+  }
+  .nav__cta {
+    margin-left: 12px;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 38px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 0 9px;
+  }
+  .nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.22s var(--ease), opacity 0.22s var(--ease);
+  }
+
+  @media (max-width: 760px) {
+    .nav-toggle {
+      display: flex;
+    }
+    .nav {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      padding: 14px 16px 20px;
+      background: var(--bg-1);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+    }
+    .nav.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .nav__link {
+      padding: 0.85em 0.6em;
+      font-size: 0.98rem;
+    }
+    .nav__link.is-active::after {
+      left: 0.6em;
+      width: 16px;
+      right: auto;
+    }
+    .nav__cta {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+const year = 2026;
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__bottom">
+      <span class="note">&copy; {year} idktheflag. All rights reserved.</span>
+      <a class="note site-footer__link" href="https://ctftime.org/team/419270">CTFtime</a>
+      <a class="note site-footer__link" href="https://github.com/idktheflag/">Github</a>
+      <a class="note site-footer__link" href="https://www.linkedin.com/company/idktheflag">Linkedin</a>
+      <a class="note site-footer__link" href="/contact/">Contact us</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 28px;
+    margin-top: 32px;
+  }
+  .site-footer__bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  .note {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--faint);
+  }
+  .site-footer__link {
+    color: var(--crimson-bright);
+    text-decoration: none;
+    transition: color 0.16s var(--ease);
+  }
+  .site-footer__link:hover {
+    color: var(--crimson);
+  }
+</style>

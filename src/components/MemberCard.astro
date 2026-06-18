@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  member: CollectionEntry<'team'>;
+}
+const { member } = Astro.props;
+const { handle, role, bio, avatar, categories } = member.data;
+---
+
+<a class="member" href={`/team/${member.id}/`}>
+  <div class="member__top">
+    <span class="member__avatar">
+      <img src={avatar} alt={`${handle} avatar`} width="56" height="56" loading="lazy" />
+    </span>
+    <div class="member__id">
+      <h3 class="member__handle">{handle}</h3>
+      <span class="member__role">{role}</span>
+    </div>
+  </div>
+  <p class="member__bio">{bio}</p>
+  <div class="member__tags">
+    {categories.map((c) => <span class="tag">{c}</span>)}
+  </div>
+</a>
+
+<style>
+  .member {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.16s var(--ease);
+  }
+  .member:hover {
+    border-color: var(--border-strong);
+  }
+  .member__top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .member__avatar {
+    width: 56px;
+    height: 56px;
+    flex: none;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--border-strong);
+    background: var(--surface-2);
+  }
+  .member:hover .member__avatar {
+    border-color: var(--crimson);
+  }
+  .member__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .member__handle {
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+  .member__role {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--crimson-bright);
+    text-transform: lowercase;
+  }
+  .member__bio {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    flex: 1;
+  }
+  .member__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 16px;
+  }
+</style>
