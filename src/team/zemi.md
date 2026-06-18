@@ -7,7 +7,7 @@ categories:
   - forensics
   - malware analysis
   - exploit development
-bio: "[placeholder bio]"
+bio: "Everything breaks eventually. I just find out how."
 avatar: /pfps/zemi.png
 order: 2
 ---
