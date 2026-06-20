@@ -3,7 +3,7 @@ handle: burd
 role: member
 categories:
   - 
-bio: "[placeholder bio]"
+bio: "/"I am Her/""
 avatar: /pfps/burd.webp
 order: 17
 ---
