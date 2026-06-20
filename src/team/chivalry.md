@@ -3,7 +3,7 @@ handle: chivalry
 role: member
 categories:
   - OSINT
-bio: "\"can u put \"ggez\" on my bio :p\""
+bio: "\"ggez\""
 avatar: /pfps/chivalry.png
 order: 14
 ---
