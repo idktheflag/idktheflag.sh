@@ -3,7 +3,7 @@ handle: nila
 role: member
 categories:
   - forensics
-bio: "[placeholder bio]"
+bio: "sanity checks main"
 avatar: /pfps/nila.png
 order: 11
 ---
