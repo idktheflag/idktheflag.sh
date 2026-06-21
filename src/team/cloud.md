@@ -3,7 +3,7 @@ handle: cloud
 role: Founder/Admin
 categories:
   - web
-bio: "[placeholder bio]"
+bio: "Overworked and asks for less credit than he deserves. We see you man."
 avatar: /pfps/cloud.png
 order: 3
 ---
