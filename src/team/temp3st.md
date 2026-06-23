@@ -1,7 +1,7 @@
 ---
 handle: temp3st
 role: member
-categories:
+categories: web active-directory 
   - 
 bio: "professional dumbass"
 avatar: /pfps/temp3st.png
