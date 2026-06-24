@@ -23,5 +23,5 @@ export const events: CtfEvent[] = [
   { name: 'THEM?!CTF 2026', date: '2026-05-29', place: 1, points: 17173, rating: 50 },
   { name: 'Grey Cat The Flag 2026 Qualifiers', date: '2026-05-30', place: 69, points: 6383, rating: 19.847 },
   { name: 'GPN CTF 2026', date: '2026-06-05', place: 52, points: 1791, rating: 28.595 },
-  { name: 'boroCTF 2026', date: '2026-06-12', place: 16, points: 16800, rating: 0 },
+  { name: 'boroCTF 2026', date: '2026-06-12', place: 16, points: 16800, rating: 24.143 },
 ];
