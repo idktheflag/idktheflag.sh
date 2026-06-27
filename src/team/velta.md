@@ -4,7 +4,7 @@ role: member
 categories:
   - osint
   - crypto
-bio: "[placeholder bio]"
+bio: "silly 25/8"
 avatar: /pfps/velta.webp
 order: 19
 ---
