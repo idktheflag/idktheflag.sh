@@ -2,9 +2,8 @@ name: Update CTF Events
 
 on:
   schedule:
-    # Run daily at 00:00 UTC
     - cron: '0 0 * * *'
-  workflow_dispatch: # Allow manual run from GitHub UI
+  workflow_dispatch:
 
 jobs:
   update-events:
@@ -26,11 +25,11 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "scrappy backend"
+          git config --global user.email "backend@qu1ck5h0t_is_goated.com"
           git add src/data/events.ts
           if ! git diff --cached --quiet; then
-            git commit -m "chore: auto-update events.ts"
+            git commit -m "update CTFtime events"
             git push
           else
             echo "No changes to commit"
