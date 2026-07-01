@@ -1,5 +1,5 @@
 ---
-handle: zemi
+handle: imattas
 role: Admin/Infra
 categories:
   - pwn
@@ -12,7 +12,7 @@ avatar: /pfps/zemi.png
 order: 2
 ---
 
-I'm Zemi. I've been into low level security, systems, and CTFs for a while now. I actually like understanding how things work under the hood, not just running tools.
+I'm Zemi/imattas. I've been into low level security, systems, and CTFs for a while now. I actually like understanding how things work under the hood, not just running tools.
 
 I compete in CTFs pretty seriously. I got a perfect score in picoCTF 2026, was a High Performer in the NSA Codebreaker Challenge out of 6,400+ people, and did eCitadel IV where I was basically handling incident response solo across like four different machines while a Red Team was actively trying to take us down the whole time.
 
