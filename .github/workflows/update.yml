@@ -21,7 +21,7 @@ jobs:
           python-version: '3.x'
 
       - name: Run update script
-        run: python updates/update_events.py src/data/events.ts
+        run: python updates/update_events.py
 
       - name: Commit and push changes
         run: |
@@ -29,8 +29,8 @@ jobs:
           git config --global user.email "backend@qu1ck5h0t_is_goated.com"
           git add src/data/events.ts
           if ! git diff --cached --quiet; then
-            git commit -m "update CTFtime events"
+            git commit -m "skibidi slop sahurrr"
             git push
           else
-            echo "No changes to commit"
+            echo "Pablo"
           fi
