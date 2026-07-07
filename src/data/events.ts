@@ -26,4 +26,5 @@ export const events: CtfEvent[] = [
   { name: 'boroCTF 2026', date: '2026-06-12', place: 16, points: 16800, rating: 24.143 },
   { name: 'V1T CTF 2026', date: '2026-06-27', place: 9, points: 7357, rating: 16.103 },
   { name: 'SekaiCTF 2026', date: '2026-06-27', place: 29, points: 1580, rating: 39.006 },
+  { name: 'No Hack No CTF 2026', date: '2026-07-04', place: 15, points: 7122, rating: 19.897 },
 ];
