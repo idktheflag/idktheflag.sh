@@ -5,8 +5,8 @@ import MemberCard from '../components/MemberCard.astro';
 import { getCollection } from 'astro:content';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
-const staff = team.filter((m) => /(admin|captain|founder)/i.test(m.data.role));
-const rest = team.filter((m) => !/(admin|captain|founder)/i.test(m.data.role));
+const staff = team.filter((m) => m.data.role.toLowerCase() !== 'member');
+const rest = team.filter((m) => m.data.role.toLowerCase() === 'member');
 ---
 
 <Base
