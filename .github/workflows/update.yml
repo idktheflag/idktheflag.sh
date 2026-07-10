@@ -1,4 +1,4 @@
-name: Update CTF Events
+name: Update the site
 
 on:
   schedule:
