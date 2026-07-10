@@ -20,14 +20,16 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Run update script
-        run: python updates/update_events.py
+      - name: Run update scripts
+        run: |
+          python updates/update_events.py
+          python updates/update_stats.py
 
       - name: Commit and push changes
         run: |
           git config --global user.name "scrappy backend"
           git config --global user.email "backend@qu1ck5h0t_is_goated.com"
-          git add src/data/events.ts
+          git add src/data/events.ts src/data/stats.ts
           if ! git diff --cached --quiet; then
             git commit -m "skibidi slop sahurrr"
             git push
