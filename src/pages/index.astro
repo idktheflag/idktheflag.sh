@@ -4,10 +4,16 @@ import SectionHeading from '../components/SectionHeading.astro';
 import StatCard from '../components/StatCard.astro';
 import { teamStats } from '../data/stats.ts';
 
+const ratingStr = teamStats.ratingPoints.toFixed(3);
+const dotIdx = ratingStr.indexOf('.');
+const ratingHtml = dotIdx !== -1
+  ? `${ratingStr.slice(0, dotIdx)}<span class="unit">${ratingStr.slice(dotIdx)}</span>`
+  : ratingStr;
+
 const stats = [
   { value: `#${teamStats.globalRank}`, label: 'Global rank' },
   { value: `#${teamStats.countryRank}`, label: 'USA rank' },
-  { value: `263<span class="unit">.481</span>`, label: 'Rating' },
+  { value: ratingHtml, label: 'Rating' },
   { value: `${teamStats.eventsPlayed}`, label: 'Events played' },
 ];
 ---
