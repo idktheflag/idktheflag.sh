@@ -1,6 +1,6 @@
 ---
 handle: yeet
-role: Community and Communications Manager
+role: Community Manager
 categories:
   - Larping
     
