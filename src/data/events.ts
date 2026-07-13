@@ -29,4 +29,6 @@ export const events: CtfEvent[] = [
   { name: 'No Hack No CTF 2026', date: '2026-07-04', place: 15, points: 7122, rating: 19.897 },
   { name: 'R3CTF 2026', date: '2026-07-04', place: 64, points: 601, rating: 2.091 },
   { name: 'LYKNCTF', date: '2026-07-06', place: 10, points: 7420, rating: 0 },
+  { name: 'Junior.Crypt.2026 CTF', date: '2026-07-11', place: 14, points: 7524, rating: 15.447 },
+  { name: 'BroncoCTF 2026', date: '2026-07-11', place: 8, points: 3777, rating: 19.586 },
 ];
