@@ -2,9 +2,9 @@
 handle: imattas
 role: Admin/Infra
 categories:
+  - captian
   - pwn
   - rev
-  - forensics
   - malware analysis
   - exploit development
 bio: "Everything breaks eventually. I just find out how."
