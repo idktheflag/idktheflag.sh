@@ -31,4 +31,5 @@ export const events: CtfEvent[] = [
   { name: 'LYKNCTF', date: '2026-07-06', place: 10, points: 7420, rating: 0 },
   { name: 'Junior.Crypt.2026 CTF', date: '2026-07-11', place: 14, points: 7524, rating: 15.447 },
   { name: 'BroncoCTF 2026', date: '2026-07-11', place: 8, points: 3777, rating: 19.586 },
+  { name: 'OmniCTF 2026 Quals', date: '2026-07-17', place: 21, points: 1916, rating: 0 },
 ];
