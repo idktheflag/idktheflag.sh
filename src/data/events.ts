@@ -33,4 +33,5 @@ export const events: CtfEvent[] = [
   { name: 'BroncoCTF 2026', date: '2026-07-11', place: 8, points: 3777, rating: 19.586 },
   { name: 'OmniCTF 2026 Quals', date: '2026-07-17', place: 21, points: 1916, rating: 17.484 },
   { name: 'ENOWARS 10', date: '2026-07-18', place: 76, points: 22450.9147, rating: 40.366 },
+  { name: 'jailCTF 2026', date: '2026-07-24', place: 15, points: 154139, rating: 3.606 },
 ];
