@@ -36,7 +36,9 @@ export const events: CtfEvent[] = [
   { name: 'jailCTF 2026', date: '2026-07-24', place: 15, points: 154139, rating: 3.606 },
   { name: 'D^3CTF 2026', date: '2026-07-25', place: 54, points: 3670, rating: 29.039 },
   { name: 'DIVER OSINT CTF 2026', date: '2026-07-25', place: 137, points: 4244, rating: 0 },
+  { name: 'BushBash CTF', date: '2026-07-31', place: 15, points: 5697, rating: 0 },
   { name: 'Lexington Informatics Tournament CTF 2026', date: '2026-08-01', place: 9, points: 4190, rating: 94.211 },
   { name: 'Kali Team - CTF 26', date: '2026-08-05', place: 11, points: 3875, rating: 15.86 },
   { name: 'UIUCTF 2026', date: '2026-08-08', place: 58, points: 1620, rating: 23.002 },
+  { name: 'scriptCTF 2026', date: '2026-08-08', place: 4, points: 15812, rating: 28.586 },
 ];
