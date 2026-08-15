@@ -5,27 +5,38 @@ interface Props {
   member: CollectionEntry<'team'>;
 }
 const { member } = Astro.props;
-const { handle, role, bio, avatar, categories } = member.data;
+const { handle, role, bio, avatar, categories, github, ctftime } = member.data;
 ---
 
-<a class="member" href={`/team/${member.id}/`}>
+<article class="member">
   <div class="member__top">
     <span class="member__avatar">
-      <img src={avatar} alt={`${handle} avatar`} width="56" height="56" loading="lazy" />
+      <img src={avatar} alt={`${handle} avatar`} width="56" height="56" loading="lazy" decoding="async" />
     </span>
     <div class="member__id">
-      <h3 class="member__handle">{handle}</h3>
+      <h3 class="member__handle">
+        <a class="member__card-link" href={`/team/${member.id}/`}>{handle}</a>
+      </h3>
       <span class="member__role">{role}</span>
     </div>
   </div>
   <p class="member__bio">{bio}</p>
-  <div class="member__tags">
-    {categories.filter(Boolean).map((c) => <span class="tag">{c}</span>)}
+  <div class="member__footer">
+    <div class="member__tags">
+      {categories.filter(Boolean).map((c) => <span class="tag">{c}</span>)}
+    </div>
+    { (github || ctftime) && (
+      <div class="member__links">
+        {github && <a class="tag tag-crimson member__extlink" href={github} target="_blank" rel="noopener noreferrer">GH</a>}
+        {ctftime && <a class="tag tag-crimson member__extlink" href={ctftime} target="_blank" rel="noopener noreferrer">CTF</a>}
+      </div>
+    )}
   </div>
-</a>
+</article>
 
 <style>
   .member {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -36,6 +47,17 @@ const { handle, role, bio, avatar, categories } = member.data;
   }
   .member:hover {
     border-color: var(--border-strong);
+  }
+  .member__card-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .member__card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius);
   }
   .member__top {
     display: flex;
@@ -50,6 +72,7 @@ const { handle, role, bio, avatar, categories } = member.data;
     overflow: hidden;
     border: 2px solid var(--border-strong);
     background: var(--surface-2);
+    transition: border-color 0.16s var(--ease);
   }
   .member:hover .member__avatar {
     border-color: var(--crimson);
@@ -76,10 +99,21 @@ const { handle, role, bio, avatar, categories } = member.data;
     color: var(--muted);
     flex: 1;
   }
-  .member__tags {
+  .member__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .member__tags,
+  .member__links {
     display: flex;
     flex-wrap: wrap;
     gap: 7px;
-    margin-top: 16px;
+  }
+  .member__links {
+    position: relative;
+    z-index: 2;
   }
 </style>

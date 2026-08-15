@@ -1,0 +1,21 @@
+{
+  "team": "idktheflag",
+  "website": "https://idktheflag.sh",
+  "ctftimeUrl": "https://ctftime.org/team/419270",
+  "membersCount": 25,
+  "roles": [
+    "Captain",
+    "Co-captain",
+    "Category Lead",
+    "Member"
+  ],
+  "categories": [
+    "web",
+    "pwn",
+    "crypto",
+    "rev",
+    "forensics",
+    "misc",
+    "osint"
+  ]
+}

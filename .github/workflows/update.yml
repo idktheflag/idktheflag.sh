@@ -27,12 +27,12 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "scrappy backend"
-          git config --global user.email "backend@qu1ck5h0t_is_goated.com"
-          git add src/data/events.ts src/data/stats.ts
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/events.json src/data/events.ts src/data/stats.json src/data/stats.ts public/api/events.json public/api/stats.json
           if ! git diff --cached --quiet; then
-            git commit -m "skibidi slop sahurrr"
+            git commit -m "chroma: update CTFtime event data and stats [automated]"
             git push
           else
-            echo "Pablo"
+            echo "No changes to commit"
           fi

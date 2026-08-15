@@ -29,6 +29,8 @@ const fullOgImage = new URL(ogImage, Astro.site ?? 'https://idktheflag.sh').href
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0a0a0c" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
     <link rel="canonical" href={canonical} />
 
     <link rel="icon" type="image/svg+xml" href="/branding/favicon.svg" />
@@ -44,7 +46,7 @@ const fullOgImage = new URL(ogImage, Astro.site ?? 'https://idktheflag.sh').href
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullOgImage} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={fullOgImage} />

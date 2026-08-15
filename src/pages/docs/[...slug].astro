@@ -13,21 +13,30 @@ const { Content } = await render(doc);
 const docs = sortDocs(await getCollection('docs', ({ data }) => !data.draft));
 const categories = groupDocs(docs);
 const activeCategory = getDocCategory(doc);
+const activeCategoryTitle = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
 ---
 
 <Base title={doc.data.title} description={doc.data.description ?? doc.data.title}>
   <section class="docs">
     <div class="container docs__grid">
       <aside class="docs__side">
-        <nav class="docs__nav" aria-label="Docs">
+        <nav class="docs__nav" aria-label="Docs Navigation">
           <a class="docs__home" href="/docs">Docs</a>
+          <div class="docs-search">
+            <input
+              type="search"
+              id="docSearchInput"
+              placeholder="Filter docs... (/)"
+              aria-label="Filter documentation"
+            />
+          </div>
           {
             categories.map((category) => (
-              <details class="docs__category" open={category.slug === activeCategory}>
+              <details class="docs__category" open>
                 <summary>{category.title}</summary>
                 <ul>
                   {category.docs.map((entry) => (
-                    <li>
+                    <li class="doc-item" data-title={entry.data.title.toLowerCase()}>
                       <a class:list={[entry.id === doc.id && 'is-active']} href={`/docs/${entry.id}/`}>
                         {entry.data.title}
                       </a>
@@ -37,10 +46,19 @@ const activeCategory = getDocCategory(doc);
               </details>
             ))
           }
+          <p class="docs__empty is-hidden" id="noDocsResults" style="margin-top:12px;">No matching documentation found.</p>
         </nav>
       </aside>
 
       <article class="docs__main">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/docs">Docs</a>
+          <span class="sep">/</span>
+          <span>{activeCategoryTitle}</span>
+          <span class="sep">/</span>
+          <span class="current">{doc.data.title}</span>
+        </nav>
+
         <header class="docs__header">
           <h1 class="docs__title">{doc.data.title}</h1>
           {doc.data.description && <p class="lead">{doc.data.description}</p>}
@@ -53,6 +71,42 @@ const activeCategory = getDocCategory(doc);
     </div>
   </section>
 </Base>
+
+<script>
+  const filterInput = document.getElementById('docSearchInput') as HTMLInputElement | null;
+  const categoryDetails = Array.from(document.querySelectorAll<HTMLDetailsElement>('.docs__category'));
+  const noDocsResults = document.getElementById('noDocsResults');
+
+  filterInput?.addEventListener('input', () => {
+    const q = filterInput.value.toLowerCase().trim();
+    let totalVisible = 0;
+    categoryDetails.forEach((cat) => {
+      let catHasVisible = false;
+      const items = Array.from(cat.querySelectorAll<HTMLLIElement>('.doc-item'));
+      items.forEach((item) => {
+        const title = item.getAttribute('data-title') || '';
+        const match = !q || title.includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) {
+          catHasVisible = true;
+          totalVisible++;
+        }
+      });
+      cat.style.display = catHasVisible ? '' : 'none';
+      if (q && catHasVisible) cat.open = true;
+    });
+    if (noDocsResults) {
+      noDocsResults.classList.toggle('is-hidden', !q || totalVisible > 0);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== filterInput && !['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) {
+      e.preventDefault();
+      filterInput?.focus();
+    }
+  });
+</script>
 
 <style>
   .docs {
@@ -70,7 +124,7 @@ const activeCategory = getDocCategory(doc);
   }
   .docs__home {
     display: block;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.16em;
@@ -79,6 +133,27 @@ const activeCategory = getDocCategory(doc);
   }
   .docs__home:hover {
     color: var(--text);
+  }
+  .docs-search {
+    margin-bottom: 14px;
+  }
+  .docs-search input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+  .docs-search input:focus {
+    outline: none;
+    border-color: var(--crimson);
+  }
+  .docs-search input:focus-visible {
+    outline: 2px solid var(--crimson-bright);
+    outline-offset: 2px;
   }
   .docs__category {
     border-left: 1px solid var(--border);
@@ -128,6 +203,32 @@ const activeCategory = getDocCategory(doc);
   .docs__nav li a.is-active {
     color: var(--crimson-bright);
     border-left-color: var(--crimson);
+  }
+  .docs__empty {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .breadcrumbs {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumbs a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.16s var(--ease);
+  }
+  .breadcrumbs a:hover {
+    color: var(--crimson-bright);
+  }
+  .breadcrumbs .sep {
+    color: var(--faint);
+  }
+  .breadcrumbs .current {
+    color: var(--text);
   }
   .docs__header {
     margin-bottom: 28px;

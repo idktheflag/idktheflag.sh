@@ -64,8 +64,24 @@ const isActive = (href: string) =>
   nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+    if (!nav?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') {
       closeMenu();
+      (toggle as HTMLElement)?.focus();
+      return;
+    }
+    if (e.key === 'Tab') {
+      const focusables = [toggle, ...Array.from(nav.querySelectorAll('a'))].filter(Boolean) as HTMLElement[];
+      if (focusables.length === 0) return;
+      const firstEl = focusables[0];
+      const lastEl = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        firstEl.focus();
+      }
     }
   });
 
@@ -91,6 +107,7 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: 50;
+    background: rgba(10, 10, 12, 0.75);
     background: color-mix(in srgb, var(--bg) 72%, transparent);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
@@ -98,6 +115,7 @@ const isActive = (href: string) =>
     transition: background 0.25s var(--ease);
   }
   .site-header.is-scrolled {
+    background: rgba(10, 10, 12, 0.88);
     background: color-mix(in srgb, var(--bg) 86%, transparent);
   }
   .site-header__inner {

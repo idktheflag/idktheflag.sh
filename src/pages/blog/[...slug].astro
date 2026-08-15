@@ -13,6 +13,10 @@ const { Content } = await render(post);
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const d = post.data.date;
 const dateLabel = `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+
+const cleanBody = post.body ? post.body.replace(/^---[\s\S]*?---\s*/, '') : '';
+const wordCount = cleanBody ? cleanBody.trim().split(/\s+/).length : 0;
+const readTimeMin = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
 <Base title={post.data.title} description={post.data.description}>
@@ -26,10 +30,20 @@ const dateLabel = `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullY
         <span>{dateLabel}</span>
         <span class="article__dot">·</span>
         <span>by {post.data.author}</span>
+        <span class="article__dot">·</span>
+        <span>{readTimeMin} min read</span>
       </div>
 
       <h1 class="article__title">{post.data.title}</h1>
       <p class="article__desc">{post.data.description}</p>
+
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="article__tags">
+          {post.data.tags.map((t: string) => (
+            <span class="tag">{t}</span>
+          ))}
+        </div>
+      )}
 
       <hr class="divider" />
 
@@ -87,6 +101,12 @@ const dateLabel = `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullY
     margin-top: 16px;
     font-size: 1.1rem;
     color: var(--muted);
+  }
+  .article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
   }
   .article__foot {
     display: flex;

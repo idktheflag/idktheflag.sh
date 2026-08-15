@@ -11,13 +11,13 @@ const categories = groupDocs(docs);
   <section class="docs">
     <div class="container docs__grid">
       <aside class="docs__side">
-        <nav class="docs__nav" aria-label="Docs">
+        <nav class="docs__nav" aria-label="Docs Navigation">
           <span class="docs__nav-label">Docs</span>
           <div class="docs-search">
             <input
-              type="text"
+              type="search"
               id="docSearchInput"
-              placeholder="Filter docs..."
+              placeholder="Filter docs... (/)"
               aria-label="Filter documentation"
             />
           </div>
@@ -89,6 +89,13 @@ const categories = groupDocs(docs);
       noDocsResults.classList.toggle('is-hidden', !q || totalVisible > 0);
     }
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== filterInput && !['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) {
+      e.preventDefault();
+      filterInput?.focus();
+    }
+  });
 </script>
 
 <style>
@@ -130,6 +137,10 @@ const categories = groupDocs(docs);
   .docs-search input:focus {
     outline: none;
     border-color: var(--crimson);
+  }
+  .docs-search input:focus-visible {
+    outline: 2px solid var(--crimson-bright);
+    outline-offset: 2px;
   }
   .docs__category {
     border-left: 1px solid var(--border);

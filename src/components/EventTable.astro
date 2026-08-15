@@ -17,23 +17,23 @@ const placeTone = (p: number) =>
 ---
 
 <div class="table-wrap">
-  <table class="evt-table">
+  <table class="evt-table" aria-label="Events played table">
     <thead>
       <tr>
         <th scope="col" data-sort="name" tabindex="0" role="button" aria-label="Sort by Event Name">
-          <div class="th-inner">Event<span class="sort-caret"></span></div>
+          <div class="th-inner">Event<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
         <th scope="col" data-sort="date" tabindex="0" role="button" aria-label="Sort by Date">
-          <div class="th-inner">Date<span class="sort-caret"></span></div>
+          <div class="th-inner">Date<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
         <th scope="col" class="num" data-sort="place" tabindex="0" role="button" aria-label="Sort by Placement">
-          <div class="th-inner">Place<span class="sort-caret"></span></div>
+          <div class="th-inner">Place<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
         <th scope="col" class="num" data-sort="points" tabindex="0" role="button" aria-label="Sort by Points">
-          <div class="th-inner">CTF pts<span class="sort-caret"></span></div>
+          <div class="th-inner">CTF pts<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
         <th scope="col" class="num is-active" data-sort="rating" aria-sort="descending" tabindex="0" role="button" aria-label="Sort by Rating">
-          <div class="th-inner">Rating<span class="sort-caret"></span></div>
+          <div class="th-inner">Rating<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
       </tr>
     </thead>
@@ -47,7 +47,16 @@ const placeTone = (p: number) =>
             data-points={e.points}
             data-rating={e.rating}
           >
-            <td class="evt-table__name">{e.name}</td>
+            <td class="evt-table__name">
+              {e.ctftimeUrl ? (
+                <a class="evt-link" href={e.ctftimeUrl} target="_blank" rel="noopener noreferrer" title={`View ${e.name} on CTFtime`}>
+                  {e.name}
+                  <span class="ext-icon" aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                e.name
+              )}
+            </td>
             <td class="evt-table__date">{fmtDate(e.date)}</td>
             <td class="num">
               <span class:list={['place', `place--${placeTone(e.place)}`]}>
@@ -61,7 +70,7 @@ const placeTone = (p: number) =>
       }
       <tr class="show-all-row">
         <td colspan="5">
-          <button type="button" class="show-all-btn">Show all ({rows.length} events)</button>
+          <button type="button" class="show-all-btn" aria-expanded="false">Show all ({rows.length} events)</button>
         </td>
       </tr>
     </tbody>
@@ -90,10 +99,24 @@ const placeTone = (p: number) =>
       if (!tbody) return;
       const rowsArr = Array.from(tbody.querySelectorAll('tr:not(.show-all-row)'));
       const showAllRow = tbody.querySelector('.show-all-row');
+      const totalCount = rowsArr.length;
+
+      if (totalCount <= 7) {
+        rowsArr.forEach(row => row.classList.remove('is-hidden'));
+        if (showAllRow) showAllRow.classList.add('is-hidden');
+        return;
+      }
       
       if (isExpanded) {
         rowsArr.forEach(row => row.classList.remove('is-hidden'));
-        if (showAllRow) showAllRow.classList.add('is-hidden');
+        if (showAllRow) {
+          showAllRow.classList.remove('is-hidden');
+          if (showAllBtn) {
+            showAllBtn.textContent = 'Show less';
+            showAllBtn.setAttribute('aria-expanded', 'true');
+          }
+          tbody.appendChild(showAllRow);
+        }
       } else {
         rowsArr.forEach((row, i) => {
           if (i < 7) {
@@ -104,6 +127,10 @@ const placeTone = (p: number) =>
         });
         if (showAllRow) {
           showAllRow.classList.remove('is-hidden');
+          if (showAllBtn) {
+            showAllBtn.textContent = `Show all (${totalCount} events)`;
+            showAllBtn.setAttribute('aria-expanded', 'false');
+          }
           tbody.appendChild(showAllRow);
         }
       }
@@ -165,7 +192,7 @@ const placeTone = (p: number) =>
     });
 
     showAllBtn?.addEventListener('click', () => {
-      isExpanded = true;
+      isExpanded = !isExpanded;
       updateRowVisibility();
     });
 
@@ -263,7 +290,27 @@ const placeTone = (p: number) =>
   .evt-table tbody tr:hover {
     background: var(--surface-2);
   }
-  
+
+  .evt-link {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.16s var(--ease);
+  }
+  .evt-link:hover {
+    color: var(--crimson-bright);
+  }
+  .ext-icon {
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: color 0.16s var(--ease);
+  }
+  .evt-link:hover .ext-icon {
+    color: var(--crimson-bright);
+  }
+
   .show-all-row td {
     padding: 0 !important;
   }

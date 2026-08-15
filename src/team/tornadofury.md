@@ -5,9 +5,9 @@ categories:
   - rev
   - OSINT
   - web
-bio: "the flag was in my pocket the whole time 💀"
+bio: "[placeholder bio]"
 avatar: /pfps/tornadofury.webp
-order: 17
+order: 19
 ---
 
 [placeholder bio]

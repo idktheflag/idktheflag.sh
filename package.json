@@ -7,9 +7,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run content:validate && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "content:validate": "node scripts/validate-content.mjs",
+    "writeup:new": "node scripts/new-writeup.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",

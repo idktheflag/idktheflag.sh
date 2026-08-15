@@ -21,9 +21,9 @@ const fmtDate = (d: Date) => d.toISOString().split('T')[0];
       <div class="filter-bar">
         <div class="search-wrap">
           <input
-            type="text"
+            type="search"
             id="blogSearch"
-            placeholder="Search writeups by title, author, or category..."
+            placeholder="Search writeups by title, author, or category... (/)"
             aria-label="Search blog posts"
           />
         </div>
@@ -122,6 +122,13 @@ const fmtDate = (d: Date) => d.toISOString().split('T')[0];
         filterPosts();
       });
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== searchInput && !['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
   }
 </script>
 
@@ -152,6 +159,10 @@ const fmtDate = (d: Date) => d.toISOString().split('T')[0];
   .search-wrap input:focus {
     outline: none;
     border-color: var(--crimson);
+  }
+  .search-wrap input:focus-visible {
+    outline: 2px solid var(--crimson-bright);
+    outline-offset: 2px;
   }
   .category-pills {
     display: flex;
