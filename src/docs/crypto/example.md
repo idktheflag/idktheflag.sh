@@ -2,6 +2,7 @@
 title: Crypto placeholder
 description: Placeholder crypto docs.
 order: 1
+draft: true
 ---
 
-Will be updated with Qu1ck5h0t's cryptodocs once I get to putting that up.
+Coming soon.

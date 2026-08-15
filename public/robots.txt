@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://idktheflag.sh/sitemap-index.xml

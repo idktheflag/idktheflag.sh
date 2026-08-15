@@ -16,7 +16,7 @@ He is now banned, but since he was our web dev and MIGHT own the rights to the o
 ## Making the new site
 It was June 17th, 21:44pm EST. I had just deleted the GitHub repo and I called up my boy Zemi, who's our main infra guy. "We need to remake the site," I said, and within two minutes we got to work. 
 
-The old site runned on Astro which is actually one of the best options for our situation. I gotta give credit where it's due, even if the kid was a nuisance. Unfortunately, I had no idea how to use Astro so I had Zemi handle the initial work. He's a far better web designer/developer than me, and I'm actually really impressed by how he did it. 
+The old site ran on Astro which is actually one of the best options for our situation. I gotta give credit where it's due, even if the kid was a nuisance. Unfortunately, I had no idea how to use Astro so I had Zemi handle the initial work. He's a far better web designer/developer than me, and I'm actually really impressed by how he did it. 
 
 First, we went through the structure of the site: an index page, CTFs page, team members page, blog page and docs page. He got Claude to slop a site for us based on the specifications, as a start. "Eww," the both of us went. We HATED the AI slop design. But I noticed two good ideas: colours and layout. 
 
@@ -27,7 +27,7 @@ It's actually quite interesting how bad his workflow was as I learned how the As
 
 Secondly, the old site's CTF history pulling was actually really inefficient. I have no idea what the last guy did except for the fact that he complained a lot about Gemini token usage or backend overhead or API grabbing or whatever, but it's really straightforward: you just make a .ts file handling the data and update THAT with whatever. No whining necessary. By the way, I was able to make sorting work for the events list! I can't believe we didn't have that before...
 
-Also, the old docs were TERRIBLE. He ran that thing from a whole other framework which not only makes for confusing UX, but also plain bad practise for maintenance consistency. I fixed that by having it pull directly from /src/docs, with folders inside for each category that are COLLAPSEABLE. Yes, you can COLLAPSE them just like with whatver old wiki engine he used. But faster and cleaner and less overhead!
+Also, the old docs were TERRIBLE. He ran that thing from a whole other framework which not only makes for confusing UX, but also plain bad practice for maintenance consistency. I fixed that by having it pull directly from /src/docs, with folders inside for each category that are COLLAPSIBLE. Yes, you can COLLAPSE them just like with whatever old wiki engine he used. But faster and cleaner and less overhead!
 
 To top it all off, I made a system to streamline content creation by automating the creation of .md files that the docs and blog and team bios use, I might make it public later just to show you guys how it works but for now it's in house and also pretty much WIP.
 

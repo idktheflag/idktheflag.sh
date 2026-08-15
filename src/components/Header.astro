@@ -46,18 +46,57 @@ const isActive = (href: string) =>
 <script>
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('nav');
-  toggle?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(!!open));
-  });
-  nav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    }),
-  );
-  // Shadow/condense on scroll
   const header = document.querySelector('.site-header');
+
+  const closeMenu = () => {
+    nav?.classList.remove('is-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  toggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (!nav?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') {
+      closeMenu();
+      (toggle as HTMLElement)?.focus();
+      return;
+    }
+    if (e.key === 'Tab') {
+      const focusables = [toggle, ...Array.from(nav.querySelectorAll('a'))].filter(Boolean) as HTMLElement[];
+      if (focusables.length === 0) return;
+      const firstEl = focusables[0];
+      const lastEl = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        firstEl.focus();
+      }
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (nav?.classList.contains('is-open') && !header?.contains(e.target as Node)) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760 && nav?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
   const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -68,6 +107,7 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: 50;
+    background: rgba(10, 10, 12, 0.75);
     background: color-mix(in srgb, var(--bg) 72%, transparent);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
@@ -75,6 +115,7 @@ const isActive = (href: string) =>
     transition: background 0.25s var(--ease);
   }
   .site-header.is-scrolled {
+    background: rgba(10, 10, 12, 0.88);
     background: color-mix(in srgb, var(--bg) 86%, transparent);
   }
   .site-header__inner {
@@ -114,9 +155,6 @@ const isActive = (href: string) =>
     border-radius: 2px;
     background: var(--crimson);
   }
-  .nav__cta {
-    margin-left: 12px;
-  }
 
   .nav-toggle {
     display: none;
@@ -127,7 +165,7 @@ const isActive = (href: string) =>
     height: 38px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 9px;
+    border-radius: 99px;
     padding: 0 9px;
   }
   .nav-toggle span {
@@ -173,10 +211,6 @@ const isActive = (href: string) =>
       left: 0.6em;
       width: 16px;
       right: auto;
-    }
-    .nav__cta {
-      margin-left: 0;
-      margin-top: 10px;
     }
   }
 </style>

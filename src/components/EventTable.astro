@@ -1,13 +1,15 @@
 ---
 import { events } from '../data/events.ts';
 
-// Sort by rating points by default (highest first).
 const rows = [...events].sort((a, b) => b.rating - a.rating);
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const fmtDate = (iso: string) => {
-  const [, m, d] = iso.split('-');
-  return `${months[parseInt(m, 10) - 1]} ${parseInt(d, 10)}`;
+  const parts = iso.split('T')[0].split('-');
+  if (parts.length < 3) return iso;
+  const m = parseInt(parts[1], 10) - 1;
+  const d = parseInt(parts[2], 10);
+  return months[m] ? `${months[m]} ${d}` : iso;
 };
 const fmtNum = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const placeTone = (p: number) =>
@@ -15,23 +17,23 @@ const placeTone = (p: number) =>
 ---
 
 <div class="table-wrap">
-  <table class="evt-table">
+  <table class="evt-table" aria-label="Events played table">
     <thead>
       <tr>
-        <th scope="col" data-sort="name">
-          <div class="th-inner">Event<span class="sort-caret"></span></div>
+        <th scope="col" data-sort="name" tabindex="0" role="button" aria-label="Sort by Event Name">
+          <div class="th-inner">Event<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
-        <th scope="col" data-sort="date">
-          <div class="th-inner">Date<span class="sort-caret"></span></div>
+        <th scope="col" data-sort="date" tabindex="0" role="button" aria-label="Sort by Date">
+          <div class="th-inner">Date<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
-        <th scope="col" class="num" data-sort="place">
-          <div class="th-inner">Place<span class="sort-caret"></span></div>
+        <th scope="col" class="num" data-sort="place" tabindex="0" role="button" aria-label="Sort by Placement">
+          <div class="th-inner">Place<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
-        <th scope="col" class="num" data-sort="points">
-          <div class="th-inner">CTF pts<span class="sort-caret"></span></div>
+        <th scope="col" class="num" data-sort="points" tabindex="0" role="button" aria-label="Sort by Points">
+          <div class="th-inner">CTF pts<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
-        <th scope="col" class="num is-active" data-sort="rating" aria-sort="descending">
-          <div class="th-inner">Rating<span class="sort-caret"></span></div>
+        <th scope="col" class="num is-active" data-sort="rating" aria-sort="descending" tabindex="0" role="button" aria-label="Sort by Rating">
+          <div class="th-inner">Rating<span class="sort-caret" aria-hidden="true"></span></div>
         </th>
       </tr>
     </thead>
@@ -45,7 +47,16 @@ const placeTone = (p: number) =>
             data-points={e.points}
             data-rating={e.rating}
           >
-            <td class="evt-table__name">{e.name}</td>
+            <td class="evt-table__name">
+              {e.ctftimeUrl ? (
+                <a class="evt-link" href={e.ctftimeUrl} target="_blank" rel="noopener noreferrer" title={`View ${e.name} on CTFtime`}>
+                  {e.name}
+                  <span class="ext-icon" aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                e.name
+              )}
+            </td>
             <td class="evt-table__date">{fmtDate(e.date)}</td>
             <td class="num">
               <span class:list={['place', `place--${placeTone(e.place)}`]}>
@@ -59,7 +70,7 @@ const placeTone = (p: number) =>
       }
       <tr class="show-all-row">
         <td colspan="5">
-          <button type="button" class="show-all-btn">Show all ({rows.length} events)</button>
+          <button type="button" class="show-all-btn" aria-expanded="false">Show all ({rows.length} events)</button>
         </td>
       </tr>
     </tbody>
@@ -88,10 +99,24 @@ const placeTone = (p: number) =>
       if (!tbody) return;
       const rowsArr = Array.from(tbody.querySelectorAll('tr:not(.show-all-row)'));
       const showAllRow = tbody.querySelector('.show-all-row');
+      const totalCount = rowsArr.length;
+
+      if (totalCount <= 7) {
+        rowsArr.forEach(row => row.classList.remove('is-hidden'));
+        if (showAllRow) showAllRow.classList.add('is-hidden');
+        return;
+      }
       
       if (isExpanded) {
         rowsArr.forEach(row => row.classList.remove('is-hidden'));
-        if (showAllRow) showAllRow.classList.add('is-hidden');
+        if (showAllRow) {
+          showAllRow.classList.remove('is-hidden');
+          if (showAllBtn) {
+            showAllBtn.textContent = 'Show less';
+            showAllBtn.setAttribute('aria-expanded', 'true');
+          }
+          tbody.appendChild(showAllRow);
+        }
       } else {
         rowsArr.forEach((row, i) => {
           if (i < 7) {
@@ -102,7 +127,11 @@ const placeTone = (p: number) =>
         });
         if (showAllRow) {
           showAllRow.classList.remove('is-hidden');
-          tbody.appendChild(showAllRow); // Always move it to the end of the tbody
+          if (showAllBtn) {
+            showAllBtn.textContent = `Show all (${totalCount} events)`;
+            showAllBtn.setAttribute('aria-expanded', 'false');
+          }
+          tbody.appendChild(showAllRow);
         }
       }
     };
@@ -115,7 +144,6 @@ const placeTone = (p: number) =>
         currentSort.desc = !currentSort.desc;
       } else {
         currentSort.column = col;
-        // Default to descending for numbers/dates, ascending for names/placement
         currentSort.desc = (col === 'rating' || col === 'date' || col === 'points');
       }
 
@@ -139,10 +167,9 @@ const placeTone = (p: number) =>
           return currentSort.desc ? numB - numA : numA - numB;
         }
         
-        // Alphabetical or dates
-        if (valA < valB) return currentSort.desc ? 1 : -1;
-        if (valA > valB) return currentSort.desc ? -1 : 1;
-        return 0;
+        return currentSort.desc
+          ? valB.localeCompare(valA)
+          : valA.localeCompare(valB);
       });
 
       rowsArr.forEach(row => tbody.appendChild(row));
@@ -150,18 +177,25 @@ const placeTone = (p: number) =>
     };
 
     headers.forEach(th => {
-      th.addEventListener('click', () => {
+      const handleSort = () => {
         const col = th.getAttribute('data-sort');
         if (col) sortTable(col);
+      };
+      th.addEventListener('click', handleSort);
+      th.addEventListener('keydown', (e) => {
+        const keyEv = e as KeyboardEvent;
+        if (keyEv.key === 'Enter' || keyEv.key === ' ') {
+          keyEv.preventDefault();
+          handleSort();
+        }
       });
     });
 
     showAllBtn?.addEventListener('click', () => {
-      isExpanded = true;
+      isExpanded = !isExpanded;
       updateRowVisibility();
     });
 
-    // Initialize layout
     updateRowVisibility();
   }
 </script>
@@ -197,7 +231,8 @@ const placeTone = (p: number) =>
   .evt-table th[data-sort] {
     cursor: pointer;
   }
-  .evt-table th[data-sort]:hover {
+  .evt-table th[data-sort]:hover,
+  .evt-table th[data-sort]:focus-visible {
     background: var(--surface-3);
     color: var(--text);
   }
@@ -227,7 +262,8 @@ const placeTone = (p: number) =>
     font-size: 0.8rem;
   }
   
-  th:hover .sort-caret {
+  th:hover .sort-caret,
+  th:focus-visible .sort-caret {
     opacity: 0.4;
   }
   
@@ -254,7 +290,27 @@ const placeTone = (p: number) =>
   .evt-table tbody tr:hover {
     background: var(--surface-2);
   }
-  
+
+  .evt-link {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.16s var(--ease);
+  }
+  .evt-link:hover {
+    color: var(--crimson-bright);
+  }
+  .ext-icon {
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: color 0.16s var(--ease);
+  }
+  .evt-link:hover .ext-icon {
+    color: var(--crimson-bright);
+  }
+
   .show-all-row td {
     padding: 0 !important;
   }

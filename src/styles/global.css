@@ -1,28 +1,20 @@
-/* ==========================================================================
-   idktheflag — design system
-   Minimal dark · mono headings · crimson used sparingly
-   ========================================================================== */
-
 :root {
-  /* --- surfaces (flat, dark, neutral) --- */
   --bg: #0a0a0c;
   --bg-1: #0d0d11;
   --surface: #111116;
   --surface-2: #16161d;
   --surface-3: #1c1c24;
+  --surface-hover: #171720;
 
-  /* --- lines --- */
   --border: #21212a;
   --border-soft: rgba(255, 255, 255, 0.05);
   --border-strong: #32323d;
 
-  /* --- text --- */
   --text: #ededf1;
   --text-dim: #b4b4bf;
   --muted: #7f7f8a;
   --faint: #595963;
 
-  /* --- crimson (anchored to the logo) --- */
   --crimson: #cf2336;
   --crimson-bright: #e8394f;
   --crimson-dim: #8e1622;
@@ -31,11 +23,9 @@
 
   --gold: #d8ab44;
 
-  /* --- type --- */
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-  /* --- layout --- */
   --maxw: 1080px;
   --maxw-prose: 720px;
   --radius: 12px;
@@ -47,7 +37,6 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* --- reset --- */
 *,
 *::before,
 *::after {
@@ -105,7 +94,6 @@ button {
   border-radius: 4px;
 }
 
-/* --- scrollbar --- */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) transparent;
@@ -120,9 +108,6 @@ button {
   border: 2px solid var(--bg);
 }
 
-/* ==========================================================================
-   typography
-   ========================================================================== */
 h1,
 h2,
 h3,
@@ -154,9 +139,6 @@ code {
   color: var(--text);
 }
 
-/* ==========================================================================
-   layout helpers
-   ========================================================================== */
 .container {
   width: 100%;
   max-width: var(--maxw);
@@ -205,9 +187,6 @@ code {
   }
 }
 
-/* ==========================================================================
-   section headings
-   ========================================================================== */
 .section-title {
   font-size: clamp(1.6rem, 3.4vw, 2.3rem);
   margin-top: 12px;
@@ -236,9 +215,6 @@ code {
   text-decoration: none;
 }
 
-/* ==========================================================================
-   buttons
-   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -270,9 +246,6 @@ code {
   border-color: var(--text-dim);
 }
 
-/* ==========================================================================
-   chips / tags
-   ========================================================================== */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -290,9 +263,10 @@ code {
   color: var(--crimson-bright);
 }
 
-/* ==========================================================================
-   stat
-   ========================================================================== */
+.is-hidden {
+  display: none !important;
+}
+
 .stat-value {
   font-family: var(--font-mono);
   font-size: clamp(1.7rem, 3.6vw, 2.3rem);
@@ -313,9 +287,6 @@ code {
   margin-top: 10px;
 }
 
-/* ==========================================================================
-   prose (blog / docs body)
-   ========================================================================== */
 .prose {
   color: var(--text-dim);
   font-size: 1.0rem;
@@ -377,18 +348,12 @@ code {
   margin-block: 2em;
 }
 
-/* ==========================================================================
-   misc utilities
-   ========================================================================== */
 .note {
   font-family: var(--font-mono);
   font-size: 0.76rem;
   color: var(--faint);
 }
 
-/* ==========================================================================
-   reduced motion
-   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

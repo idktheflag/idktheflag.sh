@@ -1,6 +1,10 @@
-export const teamStats = {
-  globalRank: 63,
-  countryRank: 12,
-  ratingPoints: 403.96,
-  eventsPlayed: 33,
-};
+import statsData from './stats.json';
+
+export interface TeamStats {
+  globalRank: number;
+  countryRank: number;
+  ratingPoints: number;
+  eventsPlayed: number;
+}
+
+export const teamStats: TeamStats = statsData;
