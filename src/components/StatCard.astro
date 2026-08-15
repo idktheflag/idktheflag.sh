@@ -1,13 +1,17 @@
 ---
 interface Props {
   value: string;
+  unit?: string;
   label: string;
 }
-const { value, label } = Astro.props;
+const { value, unit, label } = Astro.props;
 ---
 
 <div class="stat-card">
-  <div class="stat-value" set:html={value}></div>
+  <div class="stat-value">
+    {value}
+    {unit && <span class="unit">{unit}</span>}
+  </div>
   <div class="stat-label">{label}</div>
 </div>
 

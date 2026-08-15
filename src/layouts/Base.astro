@@ -6,7 +6,6 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
-  /** Path to an OG image under /public. */
   ogImage?: string;
 }
 
@@ -18,6 +17,7 @@ const {
 
 const fullTitle = title === 'idktheflag — CTF team' ? title : `${title} · idktheflag`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://idktheflag.sh').href;
+const fullOgImage = new URL(ogImage, Astro.site ?? 'https://idktheflag.sh').href;
 ---
 
 <!doctype html>
@@ -31,25 +31,24 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://idktheflag.
     <meta name="theme-color" content="#0a0a0c" />
     <link rel="canonical" href={canonical} />
 
-    <!-- favicons / branding -->
     <link rel="icon" type="image/svg+xml" href="/branding/favicon.svg" />
     <link rel="icon" type="image/png" sizes="96x96" href="/branding/favicon-96x96.png" />
     <link rel="shortcut icon" href="/branding/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/branding/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="idktheflag Blog RSS Feed" href="/rss.xml" />
 
-    <!-- open graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="idktheflag" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={fullOgImage} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={fullOgImage} />
 
-    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

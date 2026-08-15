@@ -20,7 +20,7 @@ const { handle, role, bio, avatar, categories } = member.data;
   </div>
   <p class="member__bio">{bio}</p>
   <div class="member__tags">
-    {categories.map((c) => <span class="tag">{c}</span>)}
+    {categories.filter(Boolean).map((c) => <span class="tag">{c}</span>)}
   </div>
 </a>
 

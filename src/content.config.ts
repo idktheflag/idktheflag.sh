@@ -1,7 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Blog posts live as Markdown / MDX in src/content/blog.
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/blog' }),
   schema: z.object({
@@ -19,9 +18,9 @@ const team = defineCollection({
   schema: z.object({
     handle: z.string(),
     role: z.string(),
-    categories: z.array(z.string().nullable()).transform((categories) =>
-      categories.map((category) => category ?? ''),
-    ),
+    categories: z
+      .array(z.string().nullable())
+      .transform((categories) => categories.filter((c): c is string => Boolean(c && c.trim()))),
     bio: z.string(),
     avatar: z.string(),
     order: z.number().default(999),

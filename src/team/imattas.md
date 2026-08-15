@@ -2,7 +2,7 @@
 handle: imattas
 role: Admin/Infra
 categories:
-  - captian
+  - captain
   - pwn
   - rev
   - malware analysis

@@ -46,18 +46,41 @@ const isActive = (href: string) =>
 <script>
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('nav');
-  toggle?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(!!open));
-  });
-  nav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    }),
-  );
-  // Shadow/condense on scroll
   const header = document.querySelector('.site-header');
+
+  const closeMenu = () => {
+    nav?.classList.remove('is-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  toggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (nav?.classList.contains('is-open') && !header?.contains(e.target as Node)) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760 && nav?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
   const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -114,9 +137,6 @@ const isActive = (href: string) =>
     border-radius: 2px;
     background: var(--crimson);
   }
-  .nav__cta {
-    margin-left: 12px;
-  }
 
   .nav-toggle {
     display: none;
@@ -127,7 +147,7 @@ const isActive = (href: string) =>
     height: 38px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 9px;
+    border-radius: 99px;
     padding: 0 9px;
   }
   .nav-toggle span {
@@ -173,10 +193,6 @@ const isActive = (href: string) =>
       left: 0.6em;
       width: 16px;
       right: auto;
-    }
-    .nav__cta {
-      margin-left: 0;
-      margin-top: 10px;
     }
   }
 </style>

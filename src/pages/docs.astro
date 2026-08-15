@@ -13,6 +13,14 @@ const categories = groupDocs(docs);
       <aside class="docs__side">
         <nav class="docs__nav" aria-label="Docs">
           <span class="docs__nav-label">Docs</span>
+          <div class="docs-search">
+            <input
+              type="text"
+              id="docSearchInput"
+              placeholder="Filter docs..."
+              aria-label="Filter documentation"
+            />
+          </div>
           {
             categories.length > 0 ? (
               categories.map((category) => (
@@ -20,7 +28,7 @@ const categories = groupDocs(docs);
                   <summary>{category.title}</summary>
                   <ul>
                     {category.docs.map((doc) => (
-                      <li>
+                      <li class="doc-item" data-title={doc.data.title.toLowerCase()}>
                         <a href={`/docs/${doc.id}/`}>{doc.data.title}</a>
                       </li>
                     ))}
@@ -31,6 +39,7 @@ const categories = groupDocs(docs);
               <p class="docs__empty">No docs yet.</p>
             )
           }
+          <p class="docs__empty is-hidden" id="noDocsResults" style="margin-top:12px;">No matching documentation found.</p>
         </nav>
       </aside>
 
@@ -51,6 +60,36 @@ const categories = groupDocs(docs);
     </div>
   </section>
 </Base>
+
+<script>
+  const filterInput = document.getElementById('docSearchInput') as HTMLInputElement | null;
+  const docItems = Array.from(document.querySelectorAll<HTMLLIElement>('.doc-item'));
+  const categoryDetails = Array.from(document.querySelectorAll<HTMLDetailsElement>('.docs__category'));
+  const noDocsResults = document.getElementById('noDocsResults');
+
+  filterInput?.addEventListener('input', () => {
+    const q = filterInput.value.toLowerCase().trim();
+    let totalVisible = 0;
+    categoryDetails.forEach((cat) => {
+      let catHasVisible = false;
+      const items = Array.from(cat.querySelectorAll<HTMLLIElement>('.doc-item'));
+      items.forEach((item) => {
+        const title = item.getAttribute('data-title') || '';
+        const match = !q || title.includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) {
+          catHasVisible = true;
+          totalVisible++;
+        }
+      });
+      cat.style.display = catHasVisible ? '' : 'none';
+      if (q && catHasVisible) cat.open = true;
+    });
+    if (noDocsResults) {
+      noDocsResults.classList.toggle('is-hidden', !q || totalVisible > 0);
+    }
+  });
+</script>
 
 <style>
   .docs {
@@ -73,7 +112,24 @@ const categories = groupDocs(docs);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .docs-search {
     margin-bottom: 14px;
+  }
+  .docs-search input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+  .docs-search input:focus {
+    outline: none;
+    border-color: var(--crimson);
   }
   .docs__category {
     border-left: 1px solid var(--border);
