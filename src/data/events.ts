@@ -42,4 +42,5 @@ export const events: CtfEvent[] = [
   { name: 'UIUCTF 2026', date: '2026-08-08', place: 58, points: 1620, rating: 23.002 },
   { name: 'scriptCTF 2026', date: '2026-08-08', place: 3, points: 15812, rating: 30.644 },
   { name: 'Thryve CTF 2026', date: '2026-08-14', place: 229, points: 600, rating: 0 },
+  { name: '0xV01D CTF 2026 V2', date: '2026-08-15', place: 4, points: 13770, rating: 0 },
 ];
