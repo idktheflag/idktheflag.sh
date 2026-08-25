@@ -45,4 +45,6 @@ export const events: CtfEvent[] = [
   { name: 'gaslightCTF 2026', date: '2026-08-14', place: 239, points: 895, rating: 0 },
   { name: '0xV01D CTF 2026 V2', date: '2026-08-15', place: 4, points: 13770, rating: 29.292 },
   { name: 'BrunnerCTF 2026', date: '2026-08-21', place: 40, points: 5890, rating: 22.445 },
+  { name: 'z0d1ak CTF Qualifiers', date: '2026-08-21', place: 17, points: 6357, rating: 0 },
+  { name: 'TallDwarf Hosting: Hosting Takeover', date: '2026-08-22', place: 39, points: 4258, rating: 0 },
 ];
