@@ -49,4 +49,5 @@ export const events: CtfEvent[] = [
   { name: 'TallDwarf Hosting: Hosting Takeover', date: '2026-08-22', place: 39, points: 4258, rating: 15.863 },
   { name: 'Iran Tech Olympics CTF 2026', date: '2026-08-29', place: 47, points: 1257, rating: 12.328 },
   { name: 'ASIS CTF Quals 2026', date: '2026-08-29', place: 47, points: 1257, rating: 44.642 },
+  { name: 'COMPFEST CTF 2026 (EXTENDED CHECK DESCRIPTION)', date: '2026-08-29', place: 37, points: 1810, rating: 72.182 },
 ];
