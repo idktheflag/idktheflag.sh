@@ -50,4 +50,5 @@ export const events: CtfEvent[] = [
   { name: 'Iran Tech Olympics CTF 2026', date: '2026-08-29', place: 47, points: 1257, rating: 12.328 },
   { name: 'ASIS CTF Quals 2026', date: '2026-08-29', place: 47, points: 1257, rating: 44.642 },
   { name: 'COMPFEST CTF 2026 (EXTENDED CHECK DESCRIPTION)', date: '2026-08-29', place: 37, points: 1810, rating: 72.182 },
+  { name: 'TFC CTF 2026', date: '2026-09-05', place: 123, points: 1764, rating: 15.518 },
 ];
