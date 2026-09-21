@@ -54,4 +54,5 @@ export const events: CtfEvent[] = [
   { name: 'NNS CTF 2026', date: '2026-09-04', place: 12, points: 7828, rating: 24.087 },
   { name: 'TFC CTF 2026', date: '2026-09-05', place: 123, points: 1764, rating: 15.518 },
   { name: 'PwnSec CTF 2026', date: '2026-09-12', place: 58, points: 2505, rating: 11.52 },
+  { name: 'WATCHLIST', date: '2026-09-19', place: 18, points: 4910, rating: 0 },
 ];
