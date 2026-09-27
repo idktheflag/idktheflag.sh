@@ -55,5 +55,6 @@ export const events: CtfEvent[] = [
   { name: 'TFC CTF 2026', date: '2026-09-05', place: 123, points: 1764, rating: 15.518 },
   { name: 'PwnSec CTF 2026', date: '2026-09-12', place: 58, points: 2505, rating: 11.52 },
   { name: 'DefCamp Capture the Flag (D-CTF) 2026 Quals', date: '2026-09-18', place: 101, points: 500, rating: 17.862 },
+  { name: 'CSAW CTF Qualification Round 2026', date: '2026-09-18', place: 60, points: 5327, rating: 7.086 },
   { name: 'WATCHLIST', date: '2026-09-19', place: 18, points: 4910, rating: 0 },
 ];
