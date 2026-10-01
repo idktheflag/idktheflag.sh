@@ -58,4 +58,5 @@ export const events: CtfEvent[] = [
   { name: 'CSAW CTF Qualification Round 2026', date: '2026-09-18', place: 60, points: 5327, rating: 7.086 },
   { name: 'WATCHLIST', date: '2026-09-19', place: 18, points: 4910, rating: 21.983 },
   { name: 'FAUST CTF 2026', date: '2026-09-26', place: 88, points: 7567.7951, rating: 10.737 },
+  { name: 'SunshineCTF 2026', date: '2026-09-26', place: 379, points: 1870, rating: 9.646 },
 ];
