@@ -62,6 +62,6 @@ export const events: CtfEvent[] = [
   { name: 'CubeCTF 2026', date: '2026-10-03', place: 57, points: 1000.32, rating: 1.201 },
   { name: 'kBxAc CTF 2026', date: '2026-10-09', place: 8, points: 17464, rating: 0 },
   { name: 'FortID CTF 2026', date: '2026-10-09', place: 174, points: 1028, rating: 8.243 },
-  { name: 'GaianSpace CTF 2026', date: '2026-10-10', place: 3, points: 9131, rating: 0 },
+  { name: 'GaianSpace CTF 2026', date: '2026-10-10', place: 3, points: 9131, rating: 33.333 },
   { name: 'Securinets CTF Quals 2026', date: '2026-10-17', place: 44, points: 3578, rating: 34.297 },
 ];
