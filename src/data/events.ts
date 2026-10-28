@@ -64,4 +64,5 @@ export const events: CtfEvent[] = [
   { name: 'FortID CTF 2026', date: '2026-10-09', place: 174, points: 1028, rating: 8.243 },
   { name: 'GaianSpace CTF 2026', date: '2026-10-10', place: 3, points: 9131, rating: 33.333 },
   { name: 'Securinets CTF Quals 2026', date: '2026-10-17', place: 44, points: 3578, rating: 34.297 },
+  { name: 'Hack.lu CTF 2026', date: '2026-10-23', place: 61, points: 1561, rating: 38.205 },
 ];
