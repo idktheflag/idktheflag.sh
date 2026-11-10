@@ -65,7 +65,7 @@ export const events: CtfEvent[] = [
   { name: 'Securinets CTF Quals 2026', date: '2026-10-17', place: 44, points: 3578, rating: 34.297 },
   { name: 'Hack.lu CTF 2026', date: '2026-10-23', place: 61, points: 1561, rating: 38.205 },
   { name: 'cruXipher 2026 - ATMoS 26', date: '2026-10-23', place: 58, points: 1250, rating: 13.169 },
-  { name: 'cruXipher 2026 - ATMoS '26, BITS Hyderabad', date: '2026-10-23', place: 58, points: 1250, rating: 13.169 },
+  { name: 'cruXipher 2026', date: '2026-10-23', place: 58, points: 1250, rating: 13.169 },
   { name: 'HI Cyber Con 2026 CTF', date: '2026-10-30', place: 15, points: 4359, rating: 22.797 },
   { name: 'CSCTF 2026', date: '2026-11-06', place: 423, points: 1220, rating: 0 },
 ];
