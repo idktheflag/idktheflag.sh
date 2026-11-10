@@ -1,6 +1,6 @@
 ---
 handle: temp3st
-role: member
+role: admin
 categories: 
   - web
   - active-directory
