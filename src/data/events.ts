@@ -70,5 +70,6 @@ export const events: CtfEvent[] = [
   { name: 'HI Cyber Con 2026 CTF', date: '2026-10-30', place: 15, points: 4359, rating: 22.797 },
   { name: 'CSCTF 2026', date: '2026-11-06', place: 423, points: 1220, rating: 0 },
   { name: 'SpookyCTF 2026', date: '2026-11-06', place: 102, points: 3719, rating: 12.863 },
-  { name: 'PINK+ CTF 2026', date: '2026-11-06', place: 27, points: 1810, rating: 0 },
+  { name: 'PINK+ CTF 2026', date: '2026-11-06', place: 27, points: 1810, rating: 21.828 },
+  { name: 'h4ckc0n 2026', date: '2026-11-14', place: 110, points: 3400, rating: 11.061 },
 ];
