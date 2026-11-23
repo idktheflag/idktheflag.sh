@@ -31,7 +31,7 @@ def main():
     for y in years:
         print(f"Fetching results for year {y}...")
         for eid, ed in fetch_json(f"https://ctftime.org/api/v1/results/{y}/").items():
-            title = ed['title']
+            title = ed['title'].replace("'", "")
             score = next((s for s in ed['scores'] if s['team_id'] == 419270), None)
             if not score or (title in existing and title not in recent_names):
                 continue
@@ -66,7 +66,8 @@ def main():
     for e in final:
         pts = int(e['points']) if e['points'].is_integer() else e['points']
         rtg = int(e['rating']) if e['rating'].is_integer() else e['rating']
-        lines.append(f"  {{ name: '{e['name']}', date: '{e['date']}', place: {e['place']}, points: {pts}, rating: {rtg} }},")
+        name = e['name'].replace("'", "")
+        lines.append(f"  {{ name: '{name}', date: '{e['date']}', place: {e['place']}, points: {pts}, rating: {rtg} }},")
     lines.append("];")
     
     os.makedirs(os.path.dirname(path), exist_ok=True)
