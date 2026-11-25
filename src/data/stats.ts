@@ -1,6 +1,6 @@
 export const teamStats = {
-  globalRank: 59,
-  countryRank: 7,
-  ratingPoints: 483.202,
-  eventsPlayed: 62,
+  globalRank: 60,
+  countryRank: 6,
+  ratingPoints: 490.246,
+  eventsPlayed: 63,
 };

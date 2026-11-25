@@ -69,4 +69,5 @@ export const events: CtfEvent[] = [
   { name: 'PINK+ CTF 2026', date: '2026-11-06', place: 27, points: 1810, rating: 21.828 },
   { name: 'SpookyCTF 2026', date: '2026-11-06', place: 102, points: 3719, rating: 12.863 },
   { name: 'h4ckc0n 2026', date: '2026-11-14', place: 110, points: 3400, rating: 11.061 },
+  { name: 'GlacierCTF 2026', date: '2026-11-20', place: 73, points: 1150, rating: 40.378 },
 ];
