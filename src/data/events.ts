@@ -10,7 +10,7 @@ export const events: CtfEvent[] = [
   { name: 'PascalCTF 2026', date: '2026-01-31', place: 134, points: 4705, rating: 15.452 },
   { name: 'Pragyan CTF 2026', date: '2026-02-06', place: 335, points: 450, rating: 0.129 },
   { name: 'LA CTF 2026', date: '2026-02-07', place: 150, points: 2871, rating: 19.276 },
-  { name: '0xFUN CTF 2026', date: '2026-02-12', place: 72, points: 7291, rating: 6.966 },
+  { name: '0xFUN CTF 2026', date: '2026-02-12', place: 72, points: 7291, rating: 7.025 },
   { name: 'TexSAW 2026', date: '2026-03-27', place: 457, points: 100, rating: 0.859 },
   { name: 'RITSEC CTF 2026', date: '2026-04-03', place: 75, points: 1511, rating: 12.004 },
   { name: 'NCTF 2026', date: '2026-04-04', place: 292, points: 600, rating: 2.883 },
